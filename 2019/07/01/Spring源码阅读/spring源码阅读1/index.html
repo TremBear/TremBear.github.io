@@ -346,6 +346,23 @@
 
 
 
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//swapassn.com/jsRepo/hexo/gitment.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'TremBear',
+            repo: 'picRepo',
+            oauth: {
+                client_id: '40796afbef661f29cdd7',
+                client_secret: '0d80b99fd39d394a08b272237945fdda32698542',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
 
 
 
