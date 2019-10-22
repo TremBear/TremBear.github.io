@@ -312,28 +312,20 @@
     
 
 
-
-
-
-
-
-
 <section class="comments" id="comments">
-    <div id="gitment_thread"></div>
-    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
-    <script src="//swapassn.com/jsRepo/hexo/gitment.js"></script>
+    <div id="disqus_thread"></div>
     <script>
-        var gitment = new Gitment({
-            owner: 'TremBear',
-            repo: 'TremBear.github.io',
-            oauth: {
-                client_id: '40796afbef661f29cdd7',
-                client_secret: '8d33c5c3b9348217a210e2cd939551d78be67c87',
-            },
-        })
-        gitment.render('comments')
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
     </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </section>
+
+
+
+
+
+
 
 
 
