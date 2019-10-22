@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content>
-    <meta name="description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。                                                                                                            在接下">
+    <meta name="description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring源码阅读3-四个默认标签解析">
 <meta property="og:url" content="http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/index.html">
 <meta property="og:site_name" content="TremBear&#39;s Blog">
-<meta property="og:description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。                                                                                                            在接下">
+<meta property="og:description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190716094914.png">
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190716100314.png">
 <meta property="og:updated_time" content="2019-10-22T01:35:29.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring源码阅读3-四个默认标签解析">
-<meta name="twitter:description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。                                                                                                            在接下">
+<meta name="twitter:description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions">
 <meta name="twitter:image" content="https://www.swapassn.com/picRepo/img/20190716094914.png">
     
         <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
@@ -188,22 +188,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20190716094914.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<p>在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions方法中，包含了具体的注册流程parseBeanDefinitions方法。</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20190716100314.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
+            <p>上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。<br><img src="https://www.swapassn.com/picRepo/img/20190716094914.png" alt><br>在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions方法中，包含了具体的注册流程parseBeanDefinitions方法。<br><img src="https://www.swapassn.com/picRepo/img/20190716100314.png" alt></p>
 
         </div>
 
