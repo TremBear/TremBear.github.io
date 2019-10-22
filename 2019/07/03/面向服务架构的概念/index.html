@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>面向服务的架构相关的一些概念 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="关于软件系统的架构设计，是一个太多人喜欢讨论的问题，尤其是对软件开发不了解的人士来说，总是被各种各样的概念绕来绕去。从更高的层次，能够很清晰的列出这些众多概念的区别，而身在开发一线的我们更多的是对这些概念有一些感性的、朴素的认识。将之内化到自己的工作中去，才能更好的发挥架构的优势。 ##微服务和SOA的区别微服务(MSA)是SOA发展出来的产物，它是一种比较现代化的细粒度的SOA实现方式. ##E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向服务的架构相关的一些概念">
+<meta property="og:url" content="http://trembear.github.io/2019/07/03/面向服务架构的概念/index.html">
+<meta property="og:site_name" content="TremBear&#39;s Blog">
+<meta property="og:description" content="关于软件系统的架构设计，是一个太多人喜欢讨论的问题，尤其是对软件开发不了解的人士来说，总是被各种各样的概念绕来绕去。从更高的层次，能够很清晰的列出这些众多概念的区别，而身在开发一线的我们更多的是对这些概念有一些感性的、朴素的认识。将之内化到自己的工作中去，才能更好的发挥架构的优势。 ##微服务和SOA的区别微服务(MSA)是SOA发展出来的产物，它是一种比较现代化的细粒度的SOA实现方式. ##E">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190730160000.png">
+<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190730154057.png">
+<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190730154345.png">
+<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190730154645.png">
+<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190730155029.png">
+<meta property="og:updated_time" content="2019-10-22T01:40:34.340Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向服务的架构相关的一些概念">
+<meta name="twitter:description" content="关于软件系统的架构设计，是一个太多人喜欢讨论的问题，尤其是对软件开发不了解的人士来说，总是被各种各样的概念绕来绕去。从更高的层次，能够很清晰的列出这些众多概念的区别，而身在开发一线的我们更多的是对这些概念有一些感性的、朴素的认识。将之内化到自己的工作中去，才能更好的发挥架构的优势。 ##微服务和SOA的区别微服务(MSA)是SOA发展出来的产物，它是一种比较现代化的细粒度的SOA实现方式. ##E">
+<meta name="twitter:image" content="https://www.swapassn.com/picRepo/img/20190730160000.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">trembear</h5>
+          <a href="mailto:1424479171@qq.com" title="1424479171@qq.com" class="mail">1424479171@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/TremBear" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/6142839200" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                微博
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">面向服务的架构相关的一些概念</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h2 class="title">面向服务的架构相关的一些概念</h2>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-03T09:39:00.000Z" itemprop="datePublished" class="page-time">
+  2019-07-03
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-面向服务架构的概念"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">面向服务的架构相关的一些概念</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-03 17:39:00" datetime="2019-07-03T09:39:00.000Z"  itemprop="datePublished">2019-07-03</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>关于软件系统的架构设计，是一个太多人喜欢讨论的问题，尤其是对软件开发不了解的人士来说，总是被各种各样的概念绕来绕去。从更高的层次，能够很清晰的列出这些众多概念的区别，而身在开发一线的我们更多的是对这些概念有一些感性的、朴素的认识。将之内化到自己的工作中去，才能更好的发挥架构的优势。</p>
+<p>##微服务和SOA的区别<br>微服务(MSA)是SOA发展出来的产物，它是一种比较现代化的细粒度的SOA实现方式.</p>
+<p>##ESB</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190730160000.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>ESB(enterprise service bus)曾经着实跟随着SOA火了一阵子，从名称就能知道，它的概念借鉴了计算机组成原理中的通信模型——总线，所有需要和外部系统通信的系统，统统接入ESB，岂不是完美地兼容了现有的互相隔离的异构系统，可以利用现有的系统构建一个全新的松耦合的异构的分布式系统。</p>
+<p>但，实际使用中，它还是会有很多的缺点，首先就是ESB的本身就很复杂，大大增加了系统的复杂性和可维护性。其次就是由于ESB想要做到所有服务都通过一个通路通信，直接降低了通信速度。</p>
+<p>而在现代的微服务中，往往是一个「富终端、瘦通信」（Smart endpoints and dumb pipes），使用轻量级的通信机制，而每个终端（服务）有自己的处理逻辑，它知道它要找的服务在哪里，不需要在通信的链路上做什么事情。</p>
+<p>然而，ESB是一个历史产物，用今天的眼光看待它，并且将之当做SOA的一个标签是不合理不公平的。</p>
+<p>##通讯协议<br>如今越来越多的工程开始使用RESTful来作为API的设计的基础，但仅仅几年前还有大把的API使用SOAP、WSDL等基于XML的重量级协议的Web Service。</p>
+<p>这点和上文说到的2点其实大同小异，仔细想想，它们都是由于历史原因造成的，同样的，通信协议经过这些年的发展，现在主流的基本上了两种：</p>
+<ol>
+<li>文本协议<br>使用最广泛的多是基于HTTP的RESTful规范</li>
+<li>轻量级二进制协议<br>Thrift、Protobuf，或者任何自定义的轻量级协议<br>###SOAP<br>soap用来描述传递信息的格式</li>
+</ol>
+<p>###WSDL<br>WSDL 用来描述如何访问具体的接口</p>
+<p>###UDDI<br>uddi用来管理，分发，查询webService</p>
+<p>##实例<br>服务端</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190730154057.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>客户端</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.DataOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * description</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Junwei.Xiong</span></span><br><span class="line"><span class="comment"> * since 2019-07-30 9:56</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> String endpointUrl = <span class="string">"http://localhost:8080/Service/TestServer?wsdl"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, String&gt; <span class="title">doRequestWS</span><span class="params">(URL url, String request)</span> </span>&#123;</span><br><span class="line">        HttpURLConnection connection = <span class="keyword">null</span>;</span><br><span class="line">        String rspMsg = <span class="string">""</span>;</span><br><span class="line">        String rspCode = <span class="string">"ERROR"</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">byte</span>[] requestBuf = (<span class="keyword">byte</span>[]) <span class="keyword">null</span>;</span><br><span class="line">            requestBuf = request.getBytes(<span class="string">"utf-8"</span>);</span><br><span class="line">            connection = (HttpURLConnection) url.openConnection();</span><br><span class="line">            connection.setDoOutput(<span class="keyword">true</span>);</span><br><span class="line">            connection.setDoInput(<span class="keyword">true</span>);</span><br><span class="line">            connection.setRequestMethod(<span class="string">"POST"</span>);</span><br><span class="line">            connection.setUseCaches(<span class="keyword">false</span>);</span><br><span class="line">            connection.setRequestProperty(<span class="string">"Content-Type"</span>, <span class="string">"text/xml"</span>);</span><br><span class="line">            connection.connect();</span><br><span class="line">            DataOutputStream out = <span class="keyword">new</span> DataOutputStream(</span><br><span class="line">                    connection.getOutputStream());</span><br><span class="line">            out.write(requestBuf);</span><br><span class="line">            out.flush();</span><br><span class="line">            out.close();</span><br><span class="line">            <span class="keyword">if</span> (connection.getResponseCode() != <span class="number">200</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"ERROR: "</span> + connection.getResponseMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            InputStream in = connection.getInputStream();</span><br><span class="line">            ByteArrayOutputStream bufOut = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            <span class="keyword">byte</span>[] readBuf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">100</span>];</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> ret = in.read(readBuf);</span><br><span class="line">                <span class="keyword">if</span> (ret &lt; <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                bufOut.write(readBuf, <span class="number">0</span>, ret);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">byte</span>[] rspBuf = bufOut.toByteArray();</span><br><span class="line"></span><br><span class="line">            rspMsg = <span class="keyword">new</span> String(rspBuf, <span class="string">"gbk"</span>);</span><br><span class="line">            rspCode = connection.getResponseMessage();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        connection = <span class="keyword">null</span>;</span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">        map.put(<span class="string">"rspCode"</span>, rspCode);</span><br><span class="line">        map.put(<span class="string">"rspMsg"</span>, rspMsg);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer(<span class="string">""</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;"</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;soap:Envelope "</span></span><br><span class="line">                + <span class="string">"xmlns:api='http://service.trembear.com/' "</span></span><br><span class="line">                + <span class="string">"xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' "</span></span><br><span class="line">                + <span class="string">"xmlns:xsd='http://www.w3.org/2001/XMLSchema' "</span></span><br><span class="line">                + <span class="string">"xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'&gt;"</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;soap:Body&gt;"</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;api:helloTest&gt;"</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;arg0&gt;ls&lt;/arg0&gt;"</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;/api:helloTest&gt;"</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;/soap:Body&gt;"</span>);</span><br><span class="line">        sb.append(<span class="string">"&lt;/soap:Envelope&gt;"</span>);</span><br><span class="line">        Map&lt;String, String&gt; map = HttpTest.doRequestWS(</span><br><span class="line">                <span class="keyword">new</span> URL(endpointUrl),</span><br><span class="line">                sb.toString());</span><br><span class="line">        System.out.println(map);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先执行服务端，启动服务，然后执行客户端发起调用。调用的结果如下，可以看到<return>已经有值返回了。</return></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190730154345.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>同样的方法在postman中也是能获取到返回值的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190730154645.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在上面的例子中，很好看出，这个传入的参数（以<code>&lt;soap:Envelope</code>开头的）即是<code>soap</code>。
+从<code>http://localhost:8080/Service/TestServer?wsdl</code>这个访问浏览器返回的即是<code>wsdl</code>。从wsdl中可以看出这个接口中包含了那些具体的接口，以及需要传入的参数。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190730155029.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-22T01:40:34.340Z" itemprop="dateUpdated">2019-10-22 09:40:34</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/07/03/面向服务架构的概念/" target="_blank" rel="external">http://trembear.github.io/2019/07/03/面向服务架构的概念/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://trembear.github.io">
+            <img src="/img/avatar.jpg" alt="trembear">
+            trembear
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/07/03/面向服务架构的概念/&title=《面向服务的架构相关的一些概念》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/07/03/面向服务架构的概念/&title=《面向服务的架构相关的一些概念》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/07/03/面向服务架构的概念/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《面向服务的架构相关的一些概念》 — TremBear's Blog&url=http://trembear.github.io/2019/07/03/面向服务架构的概念/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/07/03/面向服务架构的概念/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/20/mybatis-generator 配置详解/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">mybatis-generator 配置详解</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/03/Spring源码阅读/spring源码阅读3/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">spring源码阅读3-四个默认标签解析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>trembear &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/07/03/面向服务架构的概念/&title=《面向服务的架构相关的一些概念》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/07/03/面向服务架构的概念/&title=《面向服务的架构相关的一些概念》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/07/03/面向服务架构的概念/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《面向服务的架构相关的一些概念》 — TremBear's Blog&url=http://trembear.github.io/2019/07/03/面向服务架构的概念/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/07/03/面向服务架构的概念/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2019/07/03/面向服务架构的概念/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '熊俊伟的博客';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '熊俊伟的博客';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
