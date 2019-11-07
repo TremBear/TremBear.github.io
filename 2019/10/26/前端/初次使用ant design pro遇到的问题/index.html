@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>初次使用ant design pro遇到的问题 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="react">
+    <meta name="description" content="原因最近的一个项目，后台框架用的是React。本来以为直接看看项目代码就能照葫芦画瓢的，结果栽了一个跟头，在苦苦挣扎了一天后，还是有很多地方看不懂，晚上冷静了一下，整理了一下看不懂的一些地方，做一下记录，很多时候都是因为TSX的语法不够熟练，导致看不懂，有时间还是要重新学习一下语法,真正要彻底掌握ant design pro,需要前置学习的有es6，ts，react，jsx，dva，umi等。但是">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初次使用ant design pro遇到的问题">
+<meta property="og:url" content="http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/index.html">
+<meta property="og:site_name" content="TremBear&#39;s Blog">
+<meta property="og:description" content="原因最近的一个项目，后台框架用的是React。本来以为直接看看项目代码就能照葫芦画瓢的，结果栽了一个跟头，在苦苦挣扎了一天后，还是有很多地方看不懂，晚上冷静了一下，整理了一下看不懂的一些地方，做一下记录，很多时候都是因为TSX的语法不够熟练，导致看不懂，有时间还是要重新学习一下语法,真正要彻底掌握ant design pro,需要前置学习的有es6，ts，react，jsx，dva，umi等。但是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-01T07:11:52.463Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初次使用ant design pro遇到的问题">
+<meta name="twitter:description" content="原因最近的一个项目，后台框架用的是React。本来以为直接看看项目代码就能照葫芦画瓢的，结果栽了一个跟头，在苦苦挣扎了一天后，还是有很多地方看不懂，晚上冷静了一下，整理了一下看不懂的一些地方，做一下记录，很多时候都是因为TSX的语法不够熟练，导致看不懂，有时间还是要重新学习一下语法,真正要彻底掌握ant design pro,需要前置学习的有es6，ts，react，jsx，dva，umi等。但是">
+    
+        <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">trembear</h5>
+          <a href="mailto:1424479171@qq.com" title="1424479171@qq.com" class="mail">1424479171@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/TremBear" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/6142839200" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                微博
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">初次使用ant design pro遇到的问题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h2 class="title">初次使用ant design pro遇到的问题</h2>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-25T17:32:53.000Z" itemprop="datePublished" class="page-time">
+  2019-10-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原因"><span class="post-toc-number">1.</span> <span class="post-toc-text">原因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TypeScript泛型的问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">TypeScript泛型的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#状态和属性"><span class="post-toc-number">3.</span> <span class="post-toc-text">状态和属性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何修改states"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">如何修改states</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#向子组件传递数据"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">向子组件传递数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#自定义表单组件回传值"><span class="post-toc-number">4.</span> <span class="post-toc-text">自定义表单组件回传值</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-前端/初次使用ant design pro遇到的问题"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">初次使用ant design pro遇到的问题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-26 01:32:53" datetime="2019-10-25T17:32:53.000Z"  itemprop="datePublished">2019-10-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>最近的一个项目，后台框架用的是React。本来以为直接看看项目代码就能照葫芦画瓢的，结果栽了一个跟头，在苦苦挣扎了一天后，<br>还是有很多地方看不懂，晚上冷静了一下，整理了一下看不懂的一些地方，做一下记录，很多时候都是因为TSX的语法不够熟练，导致看不懂，<br>有时间还是要重新学习一下语法,真正要彻底掌握ant design pro,需要前置学习的有es6，ts，react，jsx，dva，umi等。但是项目<br>时间的问题，彻底学习还是留待以后。其实在项目中实际运用可能会更快一些。下面是一些具体的问题</p>
+<h2 id="TypeScript泛型的问题"><a href="#TypeScript泛型的问题" class="headerlink" title="TypeScript泛型的问题"></a>TypeScript泛型的问题</h2><p>函数中的泛型</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义学生的属性获取方法，一个返回字符串类型的name一个返回number类型的年龄</span></span><br><span class="line"><span class="keyword">let</span> itemFun = &#123;</span><br><span class="line">    getName: (name: <span class="built_in">string</span>): <span class="function"><span class="params">string</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;,</span><br><span class="line">    getAge: (age: <span class="built_in">number</span>):<span class="function"><span class="params">number</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//错误做法，这样的话value没有类型</span></span><br><span class="line"><span class="keyword">let</span> student1 = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//相当于</span></span><br><span class="line"><span class="keyword">let</span> student1 = (value: <span class="built_in">any</span>):<span class="function"><span class="params">any</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//错误做法 会找不到T类型的类</span></span><br><span class="line"><span class="keyword">let</span> student3 = &lt;T&gt;(value: T): <span class="function"><span class="params">T</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//规范做法</span></span><br><span class="line"><span class="comment">//解释：Value: T 表示声明参数是 T 类型的，后面的 : T 表示返回值也是 T 类型的。</span></span><br><span class="line"><span class="keyword">let</span> student3 = &lt;T <span class="keyword">extends</span> &#123;&#125;&gt;(value: T): <span class="function"><span class="params">T</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外一种形式</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明泛型类，类型变量为 T</span></span><br><span class="line"><span class="keyword">class</span> FilteredList&lt;T&gt; &#123;</span><br><span class="line">  <span class="comment">// 声明过滤器是以 T 为参数类型，返回 boolean 的函数表达式</span></span><br><span class="line">  filter: <span class="function">(<span class="params">v: T</span>) =&gt;</span> <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="comment">// 声明数据是 T 数组类型</span></span><br><span class="line">  data: T[];</span><br><span class="line">  <span class="comment">//构造器中 传入的filter是一个函数，T为参数，返回值为boolean</span></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params">filter: (v: T) =&gt; <span class="built_in">boolean</span></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.filter = filter;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  add(value: T) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.filter(value)) &#123;</span><br><span class="line">      <span class="keyword">this</span>.data.push(value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">get</span> all(): T[] &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.data;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理 string 类型的 FilteredList</span></span><br><span class="line"><span class="keyword">const</span> validStrings = <span class="keyword">new</span> FilteredList&lt;<span class="built_in">string</span>&gt;(<span class="function"><span class="params">s</span> =&gt;</span> !s);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理 number 类型的 FilteredList</span></span><br><span class="line"><span class="keyword">const</span> positiveNumber  = <span class="keyword">new</span> FilteredList&lt;<span class="built_in">number</span>&gt;(<span class="function"><span class="params">n</span> =&gt;</span> n &gt; <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>最常见一种形式的解释</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IProps &#123;</span><br><span class="line">  color?: <span class="built_in">string</span>;</span><br><span class="line">  size?: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> IState &#123;</span><br><span class="line">  aState: <span class="built_in">string</span>;</span><br><span class="line">  bState: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> Animal <span class="keyword">extends</span> Component&lt;IProps, IState&gt; &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params">props:IProps</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            aState: <span class="string">''</span>,</span><br><span class="line">            bState: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用泛型进行 Props、 State 的类型定义。在这个两个泛型里面，前一个为Props，后一个为State。这样写的目的是在<br>定义后使用 this.state 和 this.props 时可以在编辑器中获得更好的智能提示，并且会对类型进行检查。</p>
+<h2 id="状态和属性"><a href="#状态和属性" class="headerlink" title="状态和属性"></a>状态和属性</h2><p><code>props</code> 是组件对外的接口，<code>state</code> 是组件对内的接口。组件内可以引用其他组件，组件之间的引用形成了一个树状结构（组件树），如果下层组件需要使用上层组件的数据或方法，上层组件就可以通过下层组件的props属性进行传递，因此props是组件对外的接口。组件除了使用上层组件传递的数据外，自身也可能需要维护管理数据，这就是组件对内的接口state。根据对外接口props 和对内接口state，组件计算出对应界面的UI。</p>
+<p><strong>主要区别：</strong></p>
+<ul>
+<li>State是可变的，是一组用于反映组件UI变化的状态集合；state是私有的，可以认为state是组件的“私有属性（或者是局部属性）</li>
+<li>而Props对于使用它的组件来说，是只读的，要想修改Props，只能通过该组件的父组件修改。<br>在组件状态上移的场景中，父组件正是通过子组件的Props, 传递给子组件其所需要的状态。</li>
+</ul>
+<h3 id="如何修改states"><a href="#如何修改states" class="headerlink" title="如何修改states"></a>如何修改states</h3><p>states有几个地方需要注意</p>
+<ol>
+<li>用setState 修改State</li>
+<li>State 的更新是异步的</li>
+<li>State更新会被合并</li>
+<li>state类型是数组</li>
+<li>state类型是对象<h3 id="向子组件传递数据"><a href="#向子组件传递数据" class="headerlink" title="向子组件传递数据"></a>向子组件传递数据</h3>我们说 props 是组件对外的接口，state 是组件对内的接口。<br>一个组件可以选择将 state(状态) 向下传递，作为其子组件的 props(属性)：<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyComponent title=&#123;<span class="keyword">this</span>.state.title&#125;/&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="自定义表单组件回传值"><a href="#自定义表单组件回传值" class="headerlink" title="自定义表单组件回传值"></a>自定义表单组件回传值</h2><p>ant-design给我们提供了Form表单组件,但是如果想把其中的某些输入框转为组件，原有的表单取值和验证使用保持不变，该如何实现：<br>父组件：</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;FormItem label=<span class="string">"选项"</span>&gt;</span><br><span class="line">       getFieldDecorator(<span class="string">'option'</span>, &#123;</span><br><span class="line">              initialValue: [defaultValue.option || <span class="string">'0'</span>, defaultValue.word]</span><br><span class="line">         &#125;)(</span><br><span class="line">                &lt;OptionSelect/&gt;</span><br><span class="line">         )&#125;</span><br><span class="line">&lt;<span class="regexp">/FormItem&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>父组件使用getFieldDecorator最后可以取到option选项的值。<br>子组件：</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123;value&#125; = <span class="keyword">this</span>.props;</span><br><span class="line">  <span class="keyword">return</span>(</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">          &lt;Select value=&#123;value[<span class="number">0</span>]&#125; onChange=&#123;<span class="keyword">this</span>.selectChange&#125;&gt;</span><br><span class="line">            <span class="comment">//...</span></span><br><span class="line">        &lt;<span class="regexp">/Select&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Input  value=&#123;value[1]&#125; onChange=&#123;this.inputChange&#125;/</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">selectChange(val) &#123;</span></span><br><span class="line"><span class="regexp">    const &#123;onChange&#125; = this.props;</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/通知父组件更新</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/封装数据传参</span></span><br><span class="line"><span class="regexp">    let changeVal;</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/...</span></span><br><span class="line"><span class="regexp">    onChange(changeVal)</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">inputChange(e) &#123;</span></span><br><span class="line"><span class="regexp">  const &#123;onChange&#125; = this.props;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">OptionSelect.propTypes = &#123;</span></span><br><span class="line"><span class="regexp">    value: PropTypes.array,</span></span><br><span class="line"><span class="regexp">    onChange: PropTypes.func</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>getFieldDecorator这个方法会向组件注入value参数，onChange方法。子组件通过value参数来初始化值，通过onChange方法通知父组件更新。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-01T07:11:52.463Z" itemprop="dateUpdated">2019-11-01 15:11:52</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/10/26/前端/初次使用ant design pro遇到的问题/" target="_blank" rel="external">http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://trembear.github.io">
+            <img src="/img/avatar.jpg" alt="trembear">
+            trembear
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/&title=《初次使用ant design pro遇到的问题》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/&title=《初次使用ant design pro遇到的问题》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《初次使用ant design pro遇到的问题》 — TremBear's Blog&url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/01/JPA/Specification动态构建复杂查询/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Specification动态构建复杂查询</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/10/22/NodeSutdy/NodeStudy1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">node study1</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>trembear &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/&title=《初次使用ant design pro遇到的问题》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/&title=《初次使用ant design pro遇到的问题》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《初次使用ant design pro遇到的问题》 — TremBear's Blog&url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2019/10/26/前端/初次使用ant design pro遇到的问题/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '熊俊伟的博客';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '熊俊伟的博客';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
