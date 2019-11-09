@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>高阶组件 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="react">
+    <meta name="description" content="问题引入react组件提供了高端组件这么一个说法，高端组件可以部分替代组件之间的继承。是一个修饰器的模式，能够更灵活的处理一些组件复用的问题。高阶组件本质是一个函数，此函数接受一个组件，返回一个新组件。现在有这样一个需求，我们有很多业务，比如用户选择，订单选择，产品选择等。但是选择方式都是通过一个select选择框进行选择的，那么，可以将这个选择框提炼为一个公共组件，各个业务分装为业务组件，在一个">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高阶组件">
+<meta property="og:url" content="http://trembear.github.io/2019/11/09/前端/高阶组件/index.html">
+<meta property="og:site_name" content="TremBear&#39;s Blog">
+<meta property="og:description" content="问题引入react组件提供了高端组件这么一个说法，高端组件可以部分替代组件之间的继承。是一个修饰器的模式，能够更灵活的处理一些组件复用的问题。高阶组件本质是一个函数，此函数接受一个组件，返回一个新组件。现在有这样一个需求，我们有很多业务，比如用户选择，订单选择，产品选择等。但是选择方式都是通过一个select选择框进行选择的，那么，可以将这个选择框提炼为一个公共组件，各个业务分装为业务组件，在一个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-09T05:04:00.801Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高阶组件">
+<meta name="twitter:description" content="问题引入react组件提供了高端组件这么一个说法，高端组件可以部分替代组件之间的继承。是一个修饰器的模式，能够更灵活的处理一些组件复用的问题。高阶组件本质是一个函数，此函数接受一个组件，返回一个新组件。现在有这样一个需求，我们有很多业务，比如用户选择，订单选择，产品选择等。但是选择方式都是通过一个select选择框进行选择的，那么，可以将这个选择框提炼为一个公共组件，各个业务分装为业务组件，在一个">
+    
+        <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">trembear</h5>
+          <a href="mailto:1424479171@qq.com" title="1424479171@qq.com" class="mail">1424479171@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/TremBear" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/6142839200" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                微博
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">高阶组件</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h2 class="title">高阶组件</h2>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-09T04:51:47.000Z" itemprop="datePublished" class="page-time">
+  2019-11-09
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题引入"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题引入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">操作</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-前端/高阶组件"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">高阶组件</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-09 12:51:47" datetime="2019-11-09T04:51:47.000Z"  itemprop="datePublished">2019-11-09</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>react组件提供了高端组件这么一个说法，高端组件可以部分替代组件之间的继承。是一个修饰器的模式，<br>能够更灵活的处理一些组件复用的问题。<br>高阶组件本质是一个函数，此函数接受一个组件，返回一个新组件。<br>现在有这样一个需求，我们有很多业务，比如用户选择，订单选择，产品选择等。但是选择方式都是通过一个<br>select选择框进行选择的，那么，可以将这个选择框提炼为一个公共组件，各个业务分装为业务组件，<br>在一个实际的操作页面上，只要引入业务组件即可使用所有的功能。  </p>
+<p>这样的好处有：</p>
+<ol>
+<li>新建一个业务组件特别简单，传入业务的url，名称和显示字段后，即可配合通用组件实现一个完整的select选择器。</li>
+<li>提高代码的复用性，方便灵活的部署，修改基础组件的逻辑，对所有业务组件产生作用。</li>
+</ol>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>基础组件</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> BaseInputComp <span class="keyword">extends</span> Component&lt;BaseProp, BaseState&gt; &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; dispatch &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    dispatch(&#123;</span><br><span class="line">      <span class="keyword">type</span>: <span class="string">'productBrandList/fetchList'</span>,</span><br><span class="line">      payload: &#123;</span><br><span class="line">        pageSize: <span class="number">10</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;children&#125;=<span class="keyword">this</span>.props</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">handleChange</span>(<span class="params">value: <span class="built_in">any</span></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`Selected: <span class="subst">$&#123;value&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> x = <span class="number">2</span></span><br><span class="line">    <span class="keyword">const</span> &#123;url&#125; = <span class="keyword">this</span>.props</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Select</span><br><span class="line">          size=<span class="string">"default"</span></span><br><span class="line">          mode=<span class="string">"multiple"</span></span><br><span class="line">          placeholder=<span class="string">"Please select"</span></span><br><span class="line">          maxTagCount=&#123;x&#125;</span><br><span class="line">          defaultValue=&#123;[]&#125;</span><br><span class="line">          onChange=&#123;handleChange&#125;</span><br><span class="line">          style=&#123;&#123;width: <span class="string">'250px'</span>&#125;&#125;</span><br><span class="line">        &gt;</span><br><span class="line">          &#123;children&#125;</span><br><span class="line">        &lt;<span class="regexp">/Select&gt;</span></span><br><span class="line"><span class="regexp">        &#123;url&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> BaseInputComp;</span><br></pre></td></tr></table></figure>
+
+<p>基础组件中的高阶组件，提供给人员组件用来进行封装。</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">withPersistentData</span>(<span class="params">name: <span class="built_in">string</span>, url: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">WrappedComponent: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">class</span> NewComponent <span class="keyword">extends</span> Component&lt;BaseProp, BaseState&gt; &#123;</span><br><span class="line">      render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">          &lt;div&gt;</span><br><span class="line">            &lt;span&gt;&#123;name&#125;选择&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">            &lt;WrappedComponent url=&#123;url&#125;&#123;...this.props&#125;/</span>&gt;</span><br><span class="line">          &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">      &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    return NewComponent</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>人员组件</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> BaseInputComp, &#123;withPersistentData&#125; <span class="keyword">from</span> <span class="string">"@/components/BaseInputComp"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;BaseProp, BaseState&#125; <span class="keyword">from</span> <span class="string">"@/components/BaseInputComp/model"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> UserProp <span class="keyword">extends</span> BaseProp &#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> UserState <span class="keyword">extends</span> BaseState&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@withPersistentData</span>(<span class="string">'人员'</span>,<span class="string">'/product/info'</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> UserComp <span class="keyword">extends</span> Component&lt;UserProp, UserState&gt; &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;BaseInputComp &#123;...this.props&#125;&gt;&lt;<span class="regexp">/BaseInputComp&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用方法</p>
+<figure class="highlight typescript"><figcaption><span>jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> ListProps <span class="keyword">extends</span> BaseProp &#123;</span><br><span class="line">  userId: <span class="built_in">number</span></span><br><span class="line">  dispath:Dispatch</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> ListState <span class="keyword">extends</span> BaseState &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@connect</span>(<span class="function">(<span class="params">&#123;exampleDemoModel&#125;: &#123; exampleDemoModel: ExampleDemoType &#125;</span>) =&gt;</span> (&#123;userId: exampleDemoModel.userId&#125;))</span><br><span class="line"><span class="keyword">class</span> ComponentDemo <span class="keyword">extends</span> Component&lt;ListProps, ListState&gt; &#123;</span><br><span class="line">  enterIconLoading = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;dispatch&#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    <span class="keyword">const</span> &#123;userId&#125; = <span class="keyword">this</span>.props</span><br><span class="line">    dispatch(&#123;</span><br><span class="line">      <span class="keyword">type</span>: <span class="string">"exampleDemoModel/fetchNum"</span>,</span><br><span class="line">      payload2: &#123;</span><br><span class="line">        numCount: userId,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;userId&#125; = <span class="keyword">this</span>.props</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        当前userId：&#123;userId&#125;&lt;br/&gt;&lt;br/&gt;</span><br><span class="line">        &lt;Button onClick=&#123;<span class="keyword">this</span>.enterIconLoading&#125;&gt;切换UserId&lt;<span class="regexp">/Button&gt;&lt;br/</span>&gt;&lt;br/&gt;</span><br><span class="line">        &lt;UserComp &#123;...this.props&#125;/&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default Form.create&lt;ListProps &amp; FormComponentProps&gt;()(ComponentDemo);</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-09T05:04:00.801Z" itemprop="dateUpdated">2019-11-09 13:04:00</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/09/前端/高阶组件/" target="_blank" rel="external">http://trembear.github.io/2019/11/09/前端/高阶组件/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://trembear.github.io">
+            <img src="/img/avatar.jpg" alt="trembear">
+            trembear
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/09/前端/高阶组件/&title=《高阶组件》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/09/前端/高阶组件/&title=《高阶组件》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/09/前端/高阶组件/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《高阶组件》 — TremBear's Blog&url=http://trembear.github.io/2019/11/09/前端/高阶组件/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/09/前端/高阶组件/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/07/前端/dva connect 具体的用法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">dva connect的用法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>trembear &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/09/前端/高阶组件/&title=《高阶组件》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/09/前端/高阶组件/&title=《高阶组件》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/09/前端/高阶组件/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《高阶组件》 — TremBear's Blog&url=http://trembear.github.io/2019/11/09/前端/高阶组件/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/09/前端/高阶组件/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2019/11/09/前端/高阶组件/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '熊俊伟的博客';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '熊俊伟的博客';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
