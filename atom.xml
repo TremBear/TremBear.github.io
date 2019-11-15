@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://trembear.github.io/"/>
-  <updated>2019-11-09T05:12:18.133Z</updated>
+  <updated>2019-11-15T03:54:08.837Z</updated>
   <id>http://trembear.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>spring源码阅读4-整体的流程图</title>
+    <link href="http://trembear.github.io/2019/11/15/Spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB4/"/>
+    <id>http://trembear.github.io/2019/11/15/Spring源码阅读/spring源码阅读4/</id>
+    <published>2019-11-15T01:16:35.000Z</published>
+    <updated>2019-11-15T03:54:08.837Z</updated>
+    
+    <content type="html"><![CDATA[<p>回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到<code>SpringBeanFactory</code>这个过程，作了如下的流程图：</p><p>整体的流程图：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://www.swapassn.com/picRepo/img/20191115093102.png" alt title>                </div>                <div class="image-caption"></div>            </figure><p>拆分xmlBeanFactory这个super()操作，主要是加载父级的beanFactory。在这个里面父级元素为null</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://www.swapassn.com/picRepo/img/20191115093128.png" alt title>                </div>                <div class="image-caption"></div>            </figure><p>第三步是这个的核心，loadBeanDefinition(resource)的具体流程</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://www.swapassn.com/picRepo/img/20191115093148.png" alt title>                </div>                <div class="image-caption"></div>            </figure><p>以上三步是大概的流程，最后一步中，读取xml是在<code>Document</code>类中具体完成的，但是前置的一些工作在<code>XmlBeanDifinitionReader</code>中完成。</p><p>doLoadDocument通过使用DocumentLoader对象来加载Document对象，但这里在使用DocumentLoader对象之前还需要做以下5个准备工作</p><ol><li>获取DocumentLoader对象。</li><li>获取EntityResolver对象。</li><li>获取ErrorHandler对象。</li><li>获取xml验证模式。</li><li>设置xml命名空间是否敏感</li></ol><p>下面是具体如何获取EntityResolver和Xml验证模式的流程图：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://www.swapassn.com/picRepo/img/20191115103652.png" alt title>                </div>                <div class="image-caption"></div>            </figure><p>当取到Document以后，registerBeanDefinitions操作：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://www.swapassn.com/picRepo/img/20191115115251.png" alt title>                </div>                <div class="image-caption"></div>            </figure><p>开始注册进入Spring容器：</p><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://www.swapassn.com/picRepo/img/20191115115112.png" alt title>                </div>                <div class="image-caption"></div>            </figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到&lt;code&gt;SpringBeanFactory&lt;/code&gt;这个过程，作了如下的流程图：&lt;/p&gt;
+&lt;p&gt;整体的流程图：&lt;/p&gt;
+&lt;figure class=&quot;image-bubble&quot;&gt;
+       
+      
+    
+    </summary>
+    
+      <category term="spring" scheme="http://trembear.github.io/categories/spring/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>高阶组件</title>
@@ -167,29 +193,6 @@
   </entry>
   
   <entry>
-    <title>spring源码阅读3-四个默认标签解析</title>
-    <link href="http://trembear.github.io/2019/07/03/Spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB3/"/>
-    <id>http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/</id>
-    <published>2019-07-03T09:39:00.000Z</published>
-    <updated>2019-10-22T01:35:29.719Z</updated>
-    
-    <content type="html"><![CDATA[<p>上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。<br><img src="https://www.swapassn.com/picRepo/img/20190716094914.png" alt><br>在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions方法中，包含了具体的注册流程parseBeanDefinitions方法。<br><img src="https://www.swapassn.com/picRepo/img/20190716100314.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。&lt;br&gt;&lt;img src=&quot;https://www.swapassn.com/picRepo/i
-      
-    
-    </summary>
-    
-      <category term="spring" scheme="http://trembear.github.io/categories/spring/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>面向服务的架构相关的一些概念</title>
     <link href="http://trembear.github.io/2019/07/03/%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E7%9A%84%E6%A6%82%E5%BF%B5/"/>
     <id>http://trembear.github.io/2019/07/03/面向服务架构的概念/</id>
@@ -203,6 +206,29 @@
       
       
         &lt;p&gt;关于软件系统的架构设计，是一个太多人喜欢讨论的问题，尤其是对软件开发不了解的人士来说，总是被各种各样的概念绕来绕去。从更高的层次，能够很清晰的列出这些众多概念的区别，而身在开发一线的我们更多的是对这些概念有一些感性的、朴素的认识。将之内化到自己的工作中去，才能更好的发挥架构
+      
+    
+    </summary>
+    
+      <category term="spring" scheme="http://trembear.github.io/categories/spring/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>spring源码阅读3-四个默认标签解析</title>
+    <link href="http://trembear.github.io/2019/07/03/Spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB3/"/>
+    <id>http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/</id>
+    <published>2019-07-03T09:39:00.000Z</published>
+    <updated>2019-10-22T01:35:29.719Z</updated>
+    
+    <content type="html"><![CDATA[<p>上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。<br><img src="https://www.swapassn.com/picRepo/img/20190716094914.png" alt><br>在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions方法中，包含了具体的注册流程parseBeanDefinitions方法。<br><img src="https://www.swapassn.com/picRepo/img/20190716100314.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。&lt;br&gt;&lt;img src=&quot;https://www.swapassn.com/picRepo/i
       
     
     </summary>
