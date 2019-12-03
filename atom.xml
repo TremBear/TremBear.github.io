@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://trembear.github.io/"/>
-  <updated>2019-12-03T07:54:54.412Z</updated>
+  <updated>2019-12-03T07:57:18.142Z</updated>
   <id>http://trembear.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://trembear.github.io/2019/11/15/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E9%94%81/"/>
     <id>http://trembear.github.io/2019/11/15/java/多线程和锁/</id>
     <published>2019-11-15T09:18:07.000Z</published>
-    <updated>2019-12-03T07:54:54.412Z</updated>
+    <updated>2019-12-03T07:57:18.142Z</updated>
     
     <content type="html"><![CDATA[<h2 id="线程创建形式"><a href="#线程创建形式" class="headerlink" title="线程创建形式"></a>线程创建形式</h2><ol><li>继承ThreadLocal</li><li>实现Runnable</li><li>实现Callable：有返回值的任务，用Future接受返回值</li><li>使用线程池ExecutorService实现  <ol><li>newCachedThreadPool 不定长线程池</li><li>newFixedThreadPool 定长线程池</li><li>newScheduledThreadPool 定时线程池</li><li>newSingleThreadExecutor 串行线程池</li></ol></li></ol><h2 id="sleep-和-wait"><a href="#sleep-和-wait" class="headerlink" title="sleep() 和 wait()"></a>sleep() 和 wait()</h2><h2 id="Synchronized使用方法"><a href="#Synchronized使用方法" class="headerlink" title="Synchronized使用方法"></a>Synchronized使用方法</h2><h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。JDK中提供的ThreadLocal类正是为了解决这样的问题。 ThreadLocal类主要解决的就是让每个线程绑定自己的值，可以将ThreadLocal类形象的比喻成存放数据的盒子，盒子中可以存储每个线程的私有数据。</p><h3 id="ThreadLocal-内存泄露问题"><a href="#ThreadLocal-内存泄露问题" class="headerlink" title="ThreadLocal 内存泄露问题:"></a>ThreadLocal 内存泄露问题:</h3><p>ThreadLocal,中使用的 key 为 ThreadLocal 的弱引用,而 value 是强引用。所以，如果 ThreadLocal 没有被外部强引用的情况下，在垃圾回收的时候会<code>key</code>会被清理掉，而<code>value</code>不会被清理掉。<br>在调用set()、get()、remove() 方法的时候，会清理掉<code>key</code>为<code>null</code>的记录。</p><h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2><p>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。</p><h3 id="版本号机制"><a href="#版本号机制" class="headerlink" title="版本号机制"></a>版本号机制</h3><p>每次修改一个数据，一般是在数据表中加上一个数据版本号version字段。操作示意如下：</p><ol><li>数据库里有金额100，version=1</li><li>A读取金额100，修改金额为50，修改version=2</li><li>B读取金额为100，修改金额为60，修改version=2</li><li>A提交到库，这时有一个判断，如果当前version&gt;库里的version，那么通过，A可以通过</li><li>由于A修改了库version=2，B的version没有大于2，被驳回，不可提交</li></ol><h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>CAS 适合简单对象的操作，比如布尔值、整型值等。<br>内部保持着一个volatile修饰的long变量，volatile保证了long的值更新后，其他线程能立即获得最新的值。<br>自旋锁，比较交换算法，需要读写的内存值V，进行比较的值A，拟写入的值B</p><ol><li>如果A取到的Value为1,要对value进行加1操作，设置期望值为2</li><li>如果B取到的Value为1，要对value进行+1，设置期望值为2</li><li>A判断value+1为2，与期望值相等，那么修改Value为2</li><li>B判断实际的V+B=3,与期望的2不相等，那么返回失败，继续第二步，这时读出的Value为2,循环一次。</li></ol><h2 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h2><p>传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。<br>Java中<code>synchronized</code>和<code>ReentrantLock</code>等独占锁就是悲观锁思想的实现。</p><h2 id="可重入锁"><a href="#可重入锁" class="headerlink" title="可重入锁"></a>可重入锁</h2><h2 id="不可重入锁"><a href="#不可重入锁" class="headerlink" title="不可重入锁"></a>不可重入锁</h2><h2 id="AQS实现原理"><a href="#AQS实现原理" class="headerlink" title="AQS实现原理"></a>AQS实现原理</h2><h2 id="避免死锁"><a href="#避免死锁" class="headerlink" title="避免死锁"></a>避免死锁</h2><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h2 id="分布式锁的redis实现方式"><a href="#分布式锁的redis实现方式" class="headerlink" title="分布式锁的redis实现方式"></a>分布式锁的redis实现方式</h2>]]></content>
     
