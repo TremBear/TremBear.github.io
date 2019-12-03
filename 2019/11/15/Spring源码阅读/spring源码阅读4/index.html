@@ -21,12 +21,12 @@
     
     
     <meta name="keywords" content>
-    <meta name="description" content="回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到SpringBeanFactory这个过程，作了如下的流程图： 整体的流程图：                                                                                                            拆分xmlBeanFactory这">
+    <meta name="description" content="回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到SpringBeanFactory这个过程，作了如下的流程图： 整体的流程图： 拆分xmlBeanFactory这个super()操作，主要是加载父级的beanFactory。在这个里面父级元素为null 第三步是这个的核心，loadBeanDefinition(resource)的具体流程 以上三步是大概的流程，最后一步中，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring源码阅读4-整体的流程图">
 <meta property="og:url" content="http://trembear.github.io/2019/11/15/Spring源码阅读/spring源码阅读4/index.html">
 <meta property="og:site_name" content="TremBear&#39;s Blog">
-<meta property="og:description" content="回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到SpringBeanFactory这个过程，作了如下的流程图： 整体的流程图：                                                                                                            拆分xmlBeanFactory这">
+<meta property="og:description" content="回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到SpringBeanFactory这个过程，作了如下的流程图： 整体的流程图： 拆分xmlBeanFactory这个super()操作，主要是加载父级的beanFactory。在这个里面父级元素为null 第三步是这个的核心，loadBeanDefinition(resource)的具体流程 以上三步是大概的流程，最后一步中，">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191115093102.png">
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191115093128.png">
@@ -34,10 +34,10 @@
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191115103652.png">
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191115115251.png">
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191115115112.png">
-<meta property="og:updated_time" content="2019-11-15T03:54:08.837Z">
+<meta property="og:updated_time" content="2019-11-28T00:44:53.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring源码阅读4-整体的流程图">
-<meta name="twitter:description" content="回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到SpringBeanFactory这个过程，作了如下的流程图： 整体的流程图：                                                                                                            拆分xmlBeanFactory这">
+<meta name="twitter:description" content="回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到SpringBeanFactory这个过程，作了如下的流程图： 整体的流程图： 拆分xmlBeanFactory这个super()操作，主要是加载父级的beanFactory。在这个里面父级元素为null 第三步是这个的核心，loadBeanDefinition(resource)的具体流程 以上三步是大概的流程，最后一步中，">
 <meta name="twitter:image" content="https://www.swapassn.com/picRepo/img/20191115093102.png">
     
         <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
@@ -193,30 +193,9 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到<code>SpringBeanFactory</code>这个过程，作了如下的流程图：</p>
-<p>整体的流程图：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20191115093102.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<p>拆分xmlBeanFactory这个super()操作，主要是加载父级的beanFactory。在这个里面父级元素为null</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20191115093128.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<p>第三步是这个的核心，loadBeanDefinition(resource)的具体流程</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20191115093148.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
+<p>整体的流程图：<br><img src="https://www.swapassn.com/picRepo/img/20191115093102.png" alt></p>
+<p>拆分xmlBeanFactory这个super()操作，主要是加载父级的beanFactory。在这个里面父级元素为null<br><img src="https://www.swapassn.com/picRepo/img/20191115093128.png" alt></p>
+<p>第三步是这个的核心，loadBeanDefinition(resource)的具体流程<br><img src="https://www.swapassn.com/picRepo/img/20191115093148.png" alt></p>
 <p>以上三步是大概的流程，最后一步中，读取xml是在<code>Document</code>类中具体完成的，但是前置的一些工作在<code>XmlBeanDifinitionReader</code>中完成。</p>
 <p>doLoadDocument通过使用DocumentLoader对象来加载Document对象，但这里在使用DocumentLoader对象之前还需要做以下5个准备工作</p>
 <ol>
@@ -226,31 +205,9 @@
 <li>获取xml验证模式。</li>
 <li>设置xml命名空间是否敏感</li>
 </ol>
-<p>下面是具体如何获取EntityResolver和Xml验证模式的流程图：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20191115103652.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-
-<p>当取到Document以后，registerBeanDefinitions操作：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20191115115251.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<p>开始注册进入Spring容器：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://www.swapassn.com/picRepo/img/20191115115112.png" alt title>
-                </div>
-                <div class="image-caption"></div>
-            </figure>
+<p>下面是具体如何获取EntityResolver和Xml验证模式的流程图：<br><img src="https://www.swapassn.com/picRepo/img/20191115103652.png" alt></p>
+<p>当取到Document以后，registerBeanDefinitions操作：<br><img src="https://www.swapassn.com/picRepo/img/20191115115251.png" alt></p>
+<p>开始注册进入Spring容器：<br><img src="https://www.swapassn.com/picRepo/img/20191115115112.png" alt></p>
 
         </div>
 
@@ -259,7 +216,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-11-15T03:54:08.837Z" itemprop="dateUpdated">2019-11-15 11:54:08</time>
+    最后更新时间：<time datetime="2019-11-28T00:44:53.700Z" itemprop="dateUpdated">2019-11-28 08:44:53</time>
 </span><br>
 
 
@@ -334,7 +291,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/15/java/Spring应用相关的知识/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Spring相关知识</h4>
+      </a>
+    </div>
   
 
   

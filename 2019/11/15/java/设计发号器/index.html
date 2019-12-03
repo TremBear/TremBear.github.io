@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>如何设计一款发号器 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）思路该">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何设计一款发号器">
+<meta property="og:url" content="http://trembear.github.io/2019/11/15/java/设计发号器/index.html">
+<meta property="og:site_name" content="TremBear&#39;s Blog">
+<meta property="og:description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）思路该">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191203151046.png">
+<meta property="og:updated_time" content="2019-12-03T07:43:17.156Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何设计一款发号器">
+<meta name="twitter:description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）思路该">
+<meta name="twitter:image" content="https://www.swapassn.com/picRepo/img/20191203151046.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">trembear</h5>
+          <a href="mailto:1424479171@qq.com" title="1424479171@qq.com" class="mail">1424479171@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/TremBear" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/6142839200" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                微博
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">如何设计一款发号器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h2 class="title">如何设计一款发号器</h2>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-15T09:17:27.000Z" itemprop="datePublished" class="page-time">
+  2019-11-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#要求"><span class="post-toc-number">1.</span> <span class="post-toc-text">要求</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#思路"><span class="post-toc-number">2.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#其他"><span class="post-toc-number">3.</span> <span class="post-toc-text">其他</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-java/设计发号器"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">如何设计一款发号器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-15 17:17:27" datetime="2019-11-15T09:17:27.000Z"  itemprop="datePublished">2019-11-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。</p>
+<h3 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h3><ol>
+<li>全局唯一</li>
+<li>基本有序</li>
+<li>高性能</li>
+<li>高可用</li>
+<li>可灵活配置（多种接入方案）<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3>该ID二进制总共有64位，具体如下：  </li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>类型</th>
+<th>生成方式</th>
+<th>秒级时间</th>
+<th>序列号</th>
+<th>机器ID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>63</td>
+<td>62</td>
+<td>60-61</td>
+<td>30-59</td>
+<td>10-29</td>
+<td>0-10</td>
+</tr>
+</tbody></table>
+<p>系统采用多模块的结构，分为：  </p>
+<ol>
+<li>intf层：接口模块</li>
+<li>service层：提供服务的模块 （引入intf依赖）</li>
+<li>rest层： 对外提供Rest接口 （引入service依赖）  </li>
+</ol>
+<p>系统结构为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20191203151046.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>各个部分的描述：</p>
+<ol>
+<li><p>Id 类为组成ID的各个字段的结构</p>
+</li>
+<li><p>IdService接口提供了一个生成号码的方法</p>
+</li>
+<li><p>AbstractIdService是一个抽象类，实现了genId的方法，组装类型，机器ID等六个子字段</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">genId</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Id id = <span class="keyword">new</span> Id();</span><br><span class="line">    id.setMachine(machineId);</span><br><span class="line">    id.setGenMethod(genMethod);</span><br><span class="line">    id.setType(idType.value());</span><br><span class="line">    id.setVersion(version);</span><br><span class="line">    <span class="comment">//由子类生成Id的序列号和验证码</span></span><br><span class="line">    populateId(id);</span><br><span class="line">    <span class="comment">//转化id</span></span><br><span class="line">    <span class="keyword">long</span> ret = convert(id, <span class="keyword">this</span>.idMate);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">populateId</span><span class="params">(Id id)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>子类的初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IdServiceImpl</span> <span class="keyword">extends</span> <span class="title">AbstractIdService</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这个类用来生成序列号</span></span><br><span class="line">    IdPopulator idPopulator;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">IdServiceImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//父类初始化，设置模式为 秒级 生成，并且设置各个字段所占的字节数</span></span><br><span class="line">        <span class="keyword">super</span>.init();</span><br><span class="line">        initPopulator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initPopulator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        idPopulator=<span class="keyword">new</span> SyncIdPopulator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">populateId</span><span class="params">(Id id)</span> </span>&#123;</span><br><span class="line">        idPopulator.populateId(id, <span class="keyword">this</span>.idMate);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="5">
+<li><p>父类的初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractIdService</span> <span class="keyword">implements</span> <span class="title">IdService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">long</span> machineId=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">long</span> genMethod=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">long</span> version=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">protected</span> IdType idType;</span><br><span class="line">    <span class="keyword">protected</span> IdMate idMate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//设置为类型为秒级</span></span><br><span class="line">        idType=IdType.SECONDS;</span><br><span class="line">        <span class="comment">//设置各个字段所占的位数</span></span><br><span class="line">        idMate= <span class="keyword">new</span> IdMate((<span class="keyword">byte</span>) <span class="number">10</span>, (<span class="keyword">byte</span>) <span class="number">20</span>, (<span class="keyword">byte</span>) <span class="number">30</span>, (<span class="keyword">byte</span>) <span class="number">2</span>, (<span class="keyword">byte</span>) <span class="number">1</span>, (<span class="keyword">byte</span>) <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>具体生成的时间和序列号设计，逻辑如下，通过锁来控制并发问题，这个地方的逻辑可以通过Lock或者自旋锁来进行设计，同一时间里面的序列号地递增，过了当前时间后的时间改变，同时序列号置为0：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SyncIdPopulator</span> <span class="keyword">implements</span> <span class="title">IdPopulator</span> </span>&#123;</span><br><span class="line">    <span class="comment">//序列号</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> sequence=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">//时间戳</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> lastTimestamp=-<span class="number">1</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">populateId</span><span class="params">(Id id, IdMate idMate)</span> </span>&#123;</span><br><span class="line">        Timer timer=<span class="keyword">new</span> SimpleTimer();</span><br><span class="line">        <span class="keyword">long</span> timestamp= timer.genTime();</span><br><span class="line">        <span class="keyword">if</span>(timestamp==lastTimestamp)&#123;</span><br><span class="line">            sequence++;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            lastTimestamp=timestamp;</span><br><span class="line">            sequence=<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        id.setSeq(sequence);</span><br><span class="line">        id.setTime(timestamp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>额外的时间类（SimpleTimer）:时间类用于生成时间的long类型的数值</p>
+</li>
+<li><p>Abstract类中的拼接，按照更合理的做法，应该是通过IdType类型作判断，然后由工厂类生成指定的拼接方法，这里只是做一个示范：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">doConvert</span><span class="params">(Id id, IdMate idMeta)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">long</span> ret = <span class="number">0</span>;</span><br><span class="line">   </span><br><span class="line">       ret |= id.getMachine();</span><br><span class="line">   </span><br><span class="line">       ret |= id.getSeq() &lt;&lt; idMeta.getSeqBitsStartPos();</span><br><span class="line">   </span><br><span class="line">       ret |= id.getTime() &lt;&lt; idMeta.getTimeBitsStartPos();</span><br><span class="line">   </span><br><span class="line">       ret |= id.getGenMethod() &lt;&lt; idMeta.getGenMethodBitsStartPos();</span><br><span class="line">   </span><br><span class="line">       ret |= id.getType() &lt;&lt; idMeta.getTypeBitsStartPos();</span><br><span class="line">   </span><br><span class="line">       ret |= id.getVersion() &lt;&lt; idMeta.getVersionBitsStartPos();</span><br><span class="line">   </span><br><span class="line">       <span class="keyword">return</span> ret;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NtTest</span> </span>&#123;</span><br><span class="line">       <span class="meta">@Test</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">           IdServiceImpl idService=<span class="keyword">new</span> IdServiceImpl();</span><br><span class="line">           System.out.println(idService.genId());</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ol>
+<li>时间的生成与压缩<ol>
+<li>如果并发太大，并且超过了同一秒中的所有的最大序列值，那么可以让其自旋等待下一秒</li>
+<li>压缩：通过ID中类型来确定时间单位，设置一个基准值，用当前值减去基准值，除以一个位数，进行压缩</li>
+</ol>
+</li>
+<li>机器Id的生成<ol>
+<li>通过配置，配置每一台机器上不同的机器ID</li>
+<li>通过IP来分配一个不同的Id</li>
+<li>通过数据库来分配</li>
+<li>通过zookeeper来分配一个</li>
+</ol>
+</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-12-03T07:43:17.156Z" itemprop="dateUpdated">2019-12-03 15:43:17</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/15/java/设计发号器/" target="_blank" rel="external">http://trembear.github.io/2019/11/15/java/设计发号器/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://trembear.github.io">
+            <img src="/img/avatar.jpg" alt="trembear">
+            trembear
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/15/java/设计发号器/&title=《如何设计一款发号器》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/15/java/设计发号器/&title=《如何设计一款发号器》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/15/java/设计发号器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《如何设计一款发号器》 — TremBear's Blog&url=http://trembear.github.io/2019/11/15/java/设计发号器/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/15/java/设计发号器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/15/java/数据库优化/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数据库优化</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/15/java/java易错知识点/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">java易错知识点</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>trembear &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/15/java/设计发号器/&title=《如何设计一款发号器》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/15/java/设计发号器/&title=《如何设计一款发号器》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/15/java/设计发号器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《如何设计一款发号器》 — TremBear's Blog&url=http://trembear.github.io/2019/11/15/java/设计发号器/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/15/java/设计发号器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2019/11/15/java/设计发号器/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '熊俊伟的博客';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '熊俊伟的博客';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

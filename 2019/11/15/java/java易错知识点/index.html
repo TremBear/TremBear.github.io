@@ -14,27 +14,26 @@
     
     
     
-    <title>spring源码阅读3-四个默认标签解析 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
+    <title>java易错知识点 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content>
-    <meta name="description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions">
+    <meta name="description" content="JVM内存区域 方法区(线程共享):储被 JVM 加载的类信息、 常量、 静态变量、 即时编译器编译后的代码等数据 a. 运行时常量池： 运行期间也可能将新的常量放入池中（常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享） 堆（线程共享）：创建的对象和数组都保存在 Java 堆内存中，也是垃圾收集器进行垃圾收集的最重要的内存区域。 虚拟机栈（线程私有）: 方法执行的内存模型，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spring源码阅读3-四个默认标签解析">
-<meta property="og:url" content="http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/index.html">
+<meta property="og:title" content="java易错知识点">
+<meta property="og:url" content="http://trembear.github.io/2019/11/15/java/java易错知识点/index.html">
 <meta property="og:site_name" content="TremBear&#39;s Blog">
-<meta property="og:description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions">
+<meta property="og:description" content="JVM内存区域 方法区(线程共享):储被 JVM 加载的类信息、 常量、 静态变量、 即时编译器编译后的代码等数据 a. 运行时常量池： 运行期间也可能将新的常量放入池中（常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享） 堆（线程共享）：创建的对象和数组都保存在 Java 堆内存中，也是垃圾收集器进行垃圾收集的最重要的内存区域。 虚拟机栈（线程私有）: 方法执行的内存模型，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190716094914.png">
-<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20190716100314.png">
-<meta property="og:updated_time" content="2019-10-22T01:35:29.719Z">
+<meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191115161234.png">
+<meta property="og:updated_time" content="2019-12-03T06:33:40.006Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="spring源码阅读3-四个默认标签解析">
-<meta name="twitter:description" content="上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions">
-<meta name="twitter:image" content="https://www.swapassn.com/picRepo/img/20190716094914.png">
+<meta name="twitter:title" content="java易错知识点">
+<meta name="twitter:description" content="JVM内存区域 方法区(线程共享):储被 JVM 加载的类信息、 常量、 静态变量、 即时编译器编译后的代码等数据 a. 运行时常量池： 运行期间也可能将新的常量放入池中（常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享） 堆（线程共享）：创建的对象和数组都保存在 Java 堆内存中，也是垃圾收集器进行垃圾收集的最重要的内存区域。 虚拟机栈（线程私有）: 方法执行的内存模型，">
+<meta name="twitter:image" content="https://www.swapassn.com/picRepo/img/20191115161234.png">
     
         <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
     
@@ -122,7 +121,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">spring源码阅读3-四个默认标签解析</div>
+        <div class="flex-col header-title ellipsis">java易错知识点</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -144,15 +143,15 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h2 class="title">spring源码阅读3-四个默认标签解析</h2>
+        <h2 class="title">java易错知识点</h2>
         <h5 class="subtitle">
             
-                <time datetime="2019-07-03T09:39:00.000Z" itemprop="datePublished" class="page-time">
-  2019-07-03
+                <time datetime="2019-11-15T06:58:06.000Z" itemprop="datePublished" class="page-time">
+  2019-11-15
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java基础/">java基础</a></li></ul>
 
             
         </h5>
@@ -166,17 +165,24 @@
 
 <div class="container body-wrap">
     
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JVM内存区域"><span class="post-toc-number">1.</span> <span class="post-toc-text">JVM内存区域</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IO"><span class="post-toc-number">2.</span> <span class="post-toc-text">IO</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类加载机制"><span class="post-toc-number">3.</span> <span class="post-toc-text">类加载机制</span></a></li></ol>
+        </nav>
+    </aside>
 
-<article id="post-Spring源码阅读/spring源码阅读3"
+
+<article id="post-java/java易错知识点"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">spring源码阅读3-四个默认标签解析</h1>
+        <h1 class="post-card-title">java易错知识点</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-07-03 17:39:00" datetime="2019-07-03T09:39:00.000Z"  itemprop="datePublished">2019-07-03</time>
+            <time class="post-time" title="2019-11-15 14:58:06" datetime="2019-11-15T06:58:06.000Z"  itemprop="datePublished">2019-11-15</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java基础/">java基础</a></li></ul>
 
 
 
@@ -188,7 +194,34 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。<br><img src="https://www.swapassn.com/picRepo/img/20190716094914.png" alt><br>在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions方法中，包含了具体的注册流程parseBeanDefinitions方法。<br><img src="https://www.swapassn.com/picRepo/img/20190716100314.png" alt></p>
+            <h2 id="JVM内存区域"><a href="#JVM内存区域" class="headerlink" title="JVM内存区域"></a>JVM内存区域</h2><ol>
+<li>方法区(线程共享):储被 JVM 加载的类信息、 常量、 静态变量、 即时编译器编译后的代码等数据<br> a. 运行时常量池： 运行期间也可能将新的常量放入池中（常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享）</li>
+<li>堆（线程共享）：创建的对象和数组都保存在 Java 堆内存中，也是垃圾收集器进行垃圾收集的最重要的内存区域。</li>
+<li>虚拟机栈（线程私有）: 方法执行的内存模型，每个方法执行的时候都会创建栈帧，方法结束出栈。</li>
+<li>本地方法区（线程私有）：JVM调用外部的一些栈</li>
+<li>程序计数器（线程私有）：当前线程的指示器</li>
+</ol>
+<h2 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h2><ol>
+<li>阻塞IO</li>
+<li>非阻塞IO：客户线程轮询，返回错误结果后继续发起请求。</li>
+<li>多路复用IO ：内核轮询，一个线程管理多个来源的IO</li>
+<li>NIO：Java NIO 实际上就是多路复用IO，创建多个socket。内核不断轮询各个socket</li>
+<li>信号驱动IO：发起IO的时候，给socket一个函数，就绪后发送信号给用户线程</li>
+<li>异步IO：应用进程执行 aio_read 系统调用会立即返回，应用进程可以继续执行，不会被阻塞，内核会在所有操作完成之后向应用进程发送信号。</li>
+</ol>
+<h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><p>双亲委派模式：  </p>
+<ol>
+<li>自底向上检查是否类是否被夹在</li>
+<li>自顶向下尝试加载类<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20191115161234.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+</li>
+</ol>
 
         </div>
 
@@ -197,12 +230,12 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-10-22T01:35:29.719Z" itemprop="dateUpdated">2019-10-22 09:35:29</time>
+    最后更新时间：<time datetime="2019-12-03T06:33:40.006Z" itemprop="dateUpdated">2019-12-03 14:33:40</time>
 </span><br>
 
 
         
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/07/03/Spring源码阅读/spring源码阅读3/" target="_blank" rel="external">http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/</a>
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/15/java/java易错知识点/" target="_blank" rel="external">http://trembear.github.io/2019/11/15/java/java易错知识点/</a>
         
     </div>
     
@@ -227,7 +260,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/&title=《spring源码阅读3-四个默认标签解析》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/15/java/java易错知识点/&title=《java易错知识点》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -237,22 +270,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/&title=《spring源码阅读3-四个默认标签解析》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/15/java/java易错知识点/&title=《java易错知识点》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/15/java/java易错知识点/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《spring源码阅读3-四个默认标签解析》 — TremBear's Blog&url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/&via=http://trembear.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《java易错知识点》 — TremBear's Blog&url=http://trembear.github.io/2019/11/15/java/java易错知识点/&via=http://trembear.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/15/java/java易错知识点/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -275,18 +308,18 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2019/07/20/mybatis-generator 配置详解/" id="post-prev" class="post-nav-link">
+      <a href="/2019/11/15/java/设计发号器/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">mybatis-generator 配置详解</h4>
+        <h4 class="title">如何设计一款发号器</h4>
       </a>
     </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/07/03/面向服务架构的概念/" id="post-next" class="post-nav-link">
+      <a href="/2019/11/15/java/Redis/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">面向服务的架构相关的一些概念</h4>
+        <h4 class="title">Redis</h4>
       </a>
     </div>
   
@@ -369,7 +402,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/&title=《spring源码阅读3-四个默认标签解析》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/15/java/java易错知识点/&title=《java易错知识点》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -379,22 +412,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/&title=《spring源码阅读3-四个默认标签解析》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/15/java/java易错知识点/&title=《java易错知识点》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/15/java/java易错知识点/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《spring源码阅读3-四个默认标签解析》 — TremBear's Blog&url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/&via=http://trembear.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《java易错知识点》 — TremBear's Blog&url=http://trembear.github.io/2019/11/15/java/java易错知识点/&via=http://trembear.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/15/java/java易错知识点/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -405,7 +438,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2019/11/15/java/java易错知识点/" alt="微信分享二维码">
 </div>
 
 

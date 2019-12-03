@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>多线程与锁 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="线程创建形式 继承ThreadLocal 实现Runnable 实现Callable：有返回值的任务，用Future接受返回值 使用线程池ExecutorService实现   newCachedThreadPool 不定长线程池 newFixedThreadPool 定长线程池 newScheduledThreadPool 定时线程池 newSingleThreadExecutor 串行线程池s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多线程与锁">
+<meta property="og:url" content="http://trembear.github.io/2019/11/15/java/多线程和锁/index.html">
+<meta property="og:site_name" content="TremBear&#39;s Blog">
+<meta property="og:description" content="线程创建形式 继承ThreadLocal 实现Runnable 实现Callable：有返回值的任务，用Future接受返回值 使用线程池ExecutorService实现   newCachedThreadPool 不定长线程池 newFixedThreadPool 定长线程池 newScheduledThreadPool 定时线程池 newSingleThreadExecutor 串行线程池s">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-26T07:57:58.899Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多线程与锁">
+<meta name="twitter:description" content="线程创建形式 继承ThreadLocal 实现Runnable 实现Callable：有返回值的任务，用Future接受返回值 使用线程池ExecutorService实现   newCachedThreadPool 不定长线程池 newFixedThreadPool 定长线程池 newScheduledThreadPool 定时线程池 newSingleThreadExecutor 串行线程池s">
+    
+        <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">trembear</h5>
+          <a href="mailto:1424479171@qq.com" title="1424479171@qq.com" class="mail">1424479171@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/TremBear" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/6142839200" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                微博
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">多线程与锁</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h2 class="title">多线程与锁</h2>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-15T09:18:07.000Z" itemprop="datePublished" class="page-time">
+  2019-11-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线程创建形式"><span class="post-toc-number">1.</span> <span class="post-toc-text">线程创建形式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#sleep-和-wait"><span class="post-toc-number">2.</span> <span class="post-toc-text">sleep() 和 wait()</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Synchronized使用方法"><span class="post-toc-number">3.</span> <span class="post-toc-text">Synchronized使用方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ThreadLocal"><span class="post-toc-number">4.</span> <span class="post-toc-text">ThreadLocal</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ThreadLocal-内存泄露问题"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">ThreadLocal 内存泄露问题:</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#乐观锁"><span class="post-toc-number">5.</span> <span class="post-toc-text">乐观锁</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#版本号机制"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">版本号机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CAS"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">CAS</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#悲观锁"><span class="post-toc-number">6.</span> <span class="post-toc-text">悲观锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#可重入锁"><span class="post-toc-number">7.</span> <span class="post-toc-text">可重入锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#不可重入锁"><span class="post-toc-number">8.</span> <span class="post-toc-text">不可重入锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AQS实现原理"><span class="post-toc-number">9.</span> <span class="post-toc-text">AQS实现原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#避免死锁"><span class="post-toc-number">10.</span> <span class="post-toc-text">避免死锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分布式锁"><span class="post-toc-number">11.</span> <span class="post-toc-text">分布式锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分布式锁的redis实现方式"><span class="post-toc-number">12.</span> <span class="post-toc-text">分布式锁的redis实现方式</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-java/多线程和锁"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">多线程与锁</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-15 17:18:07" datetime="2019-11-15T09:18:07.000Z"  itemprop="datePublished">2019-11-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="线程创建形式"><a href="#线程创建形式" class="headerlink" title="线程创建形式"></a>线程创建形式</h2><ol>
+<li>继承ThreadLocal</li>
+<li>实现Runnable</li>
+<li>实现Callable：有返回值的任务，用Future接受返回值</li>
+<li>使用线程池ExecutorService实现  <ol>
+<li>newCachedThreadPool 不定长线程池</li>
+<li>newFixedThreadPool 定长线程池</li>
+<li>newScheduledThreadPool 定时线程池</li>
+<li>newSingleThreadExecutor 串行线程池<h2 id="sleep-和-wait"><a href="#sleep-和-wait" class="headerlink" title="sleep() 和 wait()"></a>sleep() 和 wait()</h2><h2 id="Synchronized使用方法"><a href="#Synchronized使用方法" class="headerlink" title="Synchronized使用方法"></a>Synchronized使用方法</h2><h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2>通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。JDK中提供的ThreadLocal类正是为了解决这样的问题。 ThreadLocal类主要解决的就是让每个线程绑定自己的值，可以将ThreadLocal类形象的比喻成存放数据的盒子，盒子中可以存储每个线程的私有数据。<h3 id="ThreadLocal-内存泄露问题"><a href="#ThreadLocal-内存泄露问题" class="headerlink" title="ThreadLocal 内存泄露问题:"></a>ThreadLocal 内存泄露问题:</h3>ThreadLocal,中使用的 key 为 ThreadLocal 的弱引用,而 value 是强引用。所以，如果 ThreadLocal 没有被外部强引用的情况下，在垃圾回收的时候会<code>key</code>会被清理掉，而<code>value</code>不会被清理掉。<br>在调用set()、get()、remove() 方法的时候，会清理掉<code>key</code>为<code>null</code>的记录。<h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。<h3 id="版本号机制"><a href="#版本号机制" class="headerlink" title="版本号机制"></a>版本号机制</h3>每次修改一个数据，一般是在数据表中加上一个数据版本号version字段。操作示意如下：</li>
+</ol>
+</li>
+<li>数据库里有金额100，version=1</li>
+<li>A读取金额100，修改金额为50，修改version=2</li>
+<li>B读取金额为100，修改金额为60，修改version=2</li>
+<li>A提交到库，这时有一个判断，如果当前version&gt;库里的version，那么通过，A可以通过</li>
+<li>由于A修改了库version=2，B的version没有大于2，被驳回，不可提交<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3>CAS 适合简单对象的操作，比如布尔值、整型值等。<br>内部保持着一个volatile修饰的long变量，volatile保证了long的值更新后，其他线程能立即获得最新的值。<br>自旋锁，比较交换算法，需要读写的内存值V，进行比较的值A，拟写入的值B</li>
+<li>如果A取到的Value为1,要对value进行加1操作，设置期望值为2</li>
+<li>如果B取到的Value为1，要对value进行+1，设置期望值为2</li>
+<li>A判断value+1为2，与期望值相等，那么修改Value为2</li>
+<li>B判断实际的V+B=3,与期望的2不相等，那么返回失败，继续第二步，这时读出的Value为2,循环一次。<h2 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h2>传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。<br>Java中<code>synchronized</code>和<code>ReentrantLock</code>等独占锁就是悲观锁思想的实现。<h2 id="可重入锁"><a href="#可重入锁" class="headerlink" title="可重入锁"></a>可重入锁</h2><h2 id="不可重入锁"><a href="#不可重入锁" class="headerlink" title="不可重入锁"></a>不可重入锁</h2><h2 id="AQS实现原理"><a href="#AQS实现原理" class="headerlink" title="AQS实现原理"></a>AQS实现原理</h2><h2 id="避免死锁"><a href="#避免死锁" class="headerlink" title="避免死锁"></a>避免死锁</h2><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2></li>
+</ol>
+<h2 id="分布式锁的redis实现方式"><a href="#分布式锁的redis实现方式" class="headerlink" title="分布式锁的redis实现方式"></a>分布式锁的redis实现方式</h2>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-26T07:57:58.899Z" itemprop="dateUpdated">2019-11-26 15:57:58</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/15/java/多线程和锁/" target="_blank" rel="external">http://trembear.github.io/2019/11/15/java/多线程和锁/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://trembear.github.io">
+            <img src="/img/avatar.jpg" alt="trembear">
+            trembear
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/15/java/多线程和锁/&title=《多线程与锁》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/15/java/多线程和锁/&title=《多线程与锁》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/15/java/多线程和锁/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《多线程与锁》 — TremBear's Blog&url=http://trembear.github.io/2019/11/15/java/多线程和锁/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/15/java/多线程和锁/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/28/短信/短信/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">[no title]</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/15/java/数据库优化/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数据库优化</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>trembear &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2019/11/15/java/多线程和锁/&title=《多线程与锁》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2019/11/15/java/多线程和锁/&title=《多线程与锁》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2019/11/15/java/多线程和锁/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《多线程与锁》 — TremBear's Blog&url=http://trembear.github.io/2019/11/15/java/多线程和锁/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2019/11/15/java/多线程和锁/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2019/11/15/java/多线程和锁/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '熊俊伟的博客';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '熊俊伟的博客';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
