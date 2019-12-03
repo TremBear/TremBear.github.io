@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content>
-    <meta name="description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）思路该">
+    <meta name="description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）  思">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何设计一款发号器">
 <meta property="og:url" content="http://trembear.github.io/2019/11/15/java/设计发号器/index.html">
 <meta property="og:site_name" content="TremBear&#39;s Blog">
-<meta property="og:description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）思路该">
+<meta property="og:description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）  思">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://www.swapassn.com/picRepo/img/20191203151046.png">
-<meta property="og:updated_time" content="2019-12-03T07:43:17.156Z">
+<meta property="og:updated_time" content="2019-12-03T07:55:46.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何设计一款发号器">
-<meta name="twitter:description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）思路该">
+<meta name="twitter:description" content="在单机环境中，遇到生成不重复Id的问题时，我们一般使用数据库自增主键的形式或者UUID的形式，在分布式系统中，我们使用的不止是一台数据库，使用UUID又会遇到内存消耗过大的情况，并且uuid是没有顺序的，导致B+ tree做索引时有太多的随机操作，性能下降。为了解决这个问题，单独抽出ID生成器模块进行不重复的递增ID生成。 要求 全局唯一 基本有序 高性能 高可用 可灵活配置（多种接入方案）  思">
 <meta name="twitter:image" content="https://www.swapassn.com/picRepo/img/20191203151046.png">
     
         <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
@@ -200,8 +200,9 @@
 <li>基本有序</li>
 <li>高性能</li>
 <li>高可用</li>
-<li>可灵活配置（多种接入方案）<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3>该ID二进制总共有64位，具体如下：  </li>
+<li>可灵活配置（多种接入方案）</li>
 </ol>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>该ID二进制总共有64位，具体如下：  </p>
 <table>
 <thead>
 <tr>
@@ -292,7 +293,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-12-03T07:43:17.156Z" itemprop="dateUpdated">2019-12-03 15:43:17</time>
+    最后更新时间：<time datetime="2019-12-03T07:55:46.091Z" itemprop="dateUpdated">2019-12-03 15:55:46</time>
 </span><br>
 
 
@@ -370,18 +371,18 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2019/11/15/java/数据库优化/" id="post-prev" class="post-nav-link">
+      <a href="/2019/11/15/java/多线程和锁/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">数据库优化</h4>
+        <h4 class="title">多线程与锁</h4>
       </a>
     </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/11/15/java/java易错知识点/" id="post-next" class="post-nav-link">
+      <a href="/2019/11/15/java/数据库优化/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">java易错知识点</h4>
+        <h4 class="title">数据库优化</h4>
       </a>
     </div>
   
