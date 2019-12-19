@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://trembear.github.io/"/>
-  <updated>2019-12-03T07:57:54.371Z</updated>
+  <updated>2019-12-19T03:33:19.981Z</updated>
   <id>http://trembear.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python解析浏览器视频</title>
+    <link href="http://trembear.github.io/2019/12/19/java/%E8%A7%A3%E6%9E%90%E8%A7%86%E9%A2%91/"/>
+    <id>http://trembear.github.io/2019/12/19/java/解析视频/</id>
+    <published>2019-12-19T03:14:35.000Z</published>
+    <updated>2019-12-19T03:33:19.981Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="python解析视频"><a href="#python解析视频" class="headerlink" title="python解析视频"></a>python解析视频</h2><p>以<a href="https://news.cgtn.com/news/2019-11-06/Hello-world-this-is-China-LnhbBHnGA8/index.html" target="_blank" rel="noopener">CGTN</a>为例，想要获取里面视频。采用的播放器是JW player。</p><h2 id="分析结构"><a href="#分析结构" class="headerlink" title="分析结构"></a>分析结构</h2><p>播放视频，会发现视频文件是由一个个的ts文件拼接而来的。<br><img src="https://www.swapassn.com/picRepo/img/20191219111910.png" alt><br>其中，每一个小的ts是一个视频片段，只需要拼接就行了。<br>但是具体包含哪些片段呢，有另外一个请求可以看到。<br><img src="https://www.swapassn.com/picRepo/img/20191219112044.png" alt><br>在这个地方，可以看到由m3u8的请求可以看到，有四个版本的视频源，分别为高低清画质的。然后访问高画质的视频源，可以获取所有的ts文件。<br>最后，拼接一下ts文件即可。</p><h2 id="python实现"><a href="#python实现" class="headerlink" title="python实现"></a>python实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">name = <span class="string">"下载.mp4"</span></span><br><span class="line">url = <span class="string">"https://video.cgtn.com/news/7767544e3567444d78496a4d3151444e35497a4e31457a6333566d54/video/4afe00b6e392433a91c70dabff85db6f/6000000-1920x1080/6000000-1920x1080.m3u8"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 请求头，看网站更改</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "</span></span><br><span class="line">                  <span class="string">"(KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36"</span>,</span><br><span class="line">    &#125;</span><br><span class="line">r = requests.get(url)</span><br><span class="line">t = re.compile(<span class="string">r"6000000.*?\.ts"</span>)  <span class="comment"># ts的正则匹配</span></span><br><span class="line"></span><br><span class="line">ts_urls = t.findall(r.text)  <span class="comment"># ts的url列表</span></span><br><span class="line"><span class="keyword">for</span> ts_url <span class="keyword">in</span> ts_urls:</span><br><span class="line">    ts_name = ts_url.split(<span class="string">"/"</span>)[<span class="number">-1</span>]     <span class="comment"># ts文件名</span></span><br><span class="line">    url1=<span class="string">'https://video.cgtn.com/news/7767544e3567444d78496a4d3151444e35497a4e31457a6333566d54/video/4afe00b6e392433a91c70dabff85db6f/6000000-1920x1080/'</span></span><br><span class="line">    <span class="comment"># 获取ts文件二进制数据</span></span><br><span class="line">    print(<span class="string">"正在下载："</span> + ts_name)</span><br><span class="line">    fullurl=url1+ts_url</span><br><span class="line">    ts = requests.get(fullurl).content</span><br><span class="line">    <span class="keyword">with</span> open(name, <span class="string">"ab"</span>) <span class="keyword">as</span> file:</span><br><span class="line">    <span class="comment"># # decrypt方法的参数需要为16的倍数，如果不是，需要在后面补二进制"0"</span></span><br><span class="line">        file.write(ts)</span><br><span class="line">        print(<span class="string">"保存成功："</span> + ts_name)</span><br><span class="line">print(name, <span class="string">"下载完成"</span>)</span><br></pre></td></tr></table></figure><h2 id="附"><a href="#附" class="headerlink" title="附"></a>附</h2><p>针对有一些网站的视频，在编码的时候进行了加密，一般有一个key的字段，解码的时候需要解密。<br>一般的解密：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 解密并保存ts</span></span><br><span class="line"><span class="keyword">for</span> ts_url <span class="keyword">in</span> ts_urls:</span><br><span class="line"></span><br><span class="line">    ts_name = ts_url.split(<span class="string">"/"</span>)[<span class="number">-1</span>]     <span class="comment"># ts文件名</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 解密，new有三个参数，</span></span><br><span class="line"><span class="comment"># 第一个是秘钥（key）的二进制数据，</span></span><br><span class="line"><span class="comment"># 第二个使用下面这个就好</span></span><br><span class="line"><span class="comment"># 第三个IV在m3u8文件里URI后面会给出，如果没有，可以尝试把秘钥（key）赋值给IV</span></span><br><span class="line">    sprytor = AES.new(key, AES.MODE_CBC, IV=key)</span><br><span class="line">    url1=<span class="string">'https://video.cgtn.com/news/7767544e3567444d78496a4d3151444e35497a4e31457a6333566d54/video/4afe00b6e392433a91c70dabff85db6f/6000000-1920x1080/'</span></span><br><span class="line">    <span class="comment"># 获取ts文件二进制数据</span></span><br><span class="line">    print(<span class="string">"正在下载："</span> + ts_name)</span><br><span class="line">    fullurl=url1+ts_url</span><br><span class="line">    ts = requests.get(fullurl).content</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 密文长度不为16的倍数，则添加b"0"直到长度为16的倍数</span></span><br><span class="line">    <span class="keyword">while</span> len(ts) % <span class="number">16</span> != <span class="number">0</span>:</span><br><span class="line">        ts += <span class="string">b"0"</span></span><br><span class="line">    </span><br><span class="line">    print(<span class="string">"正在解密："</span> + ts_name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入mp4文件</span></span><br><span class="line">    <span class="keyword">with</span> open(name, <span class="string">"ab"</span>) <span class="keyword">as</span> file:</span><br><span class="line">    <span class="comment"># # decrypt方法的参数需要为16的倍数，如果不是，需要在后面补二进制"0"</span></span><br><span class="line">        file.write(ts)</span><br><span class="line">        print(<span class="string">"保存成功："</span> + ts_name)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;python解析视频&quot;&gt;&lt;a href=&quot;#python解析视频&quot; class=&quot;headerlink&quot; title=&quot;python解析视频&quot;&gt;&lt;/a&gt;python解析视频&lt;/h2&gt;&lt;p&gt;以&lt;a href=&quot;https://news.cgtn.com/news/2
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://trembear.github.io/categories/python/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>如何设计一款发号器</title>
@@ -358,29 +381,6 @@
   </entry>
   
   <entry>
-    <title>spring源码阅读3-四个默认标签解析</title>
-    <link href="http://trembear.github.io/2019/07/03/Spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB3/"/>
-    <id>http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/</id>
-    <published>2019-07-03T09:39:00.000Z</published>
-    <updated>2019-10-22T01:35:29.719Z</updated>
-    
-    <content type="html"><![CDATA[<p>上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。<br><img src="https://www.swapassn.com/picRepo/img/20190716094914.png" alt><br>在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions方法中，包含了具体的注册流程parseBeanDefinitions方法。<br><img src="https://www.swapassn.com/picRepo/img/20190716100314.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。&lt;br&gt;&lt;img src=&quot;https://www.swapassn.com/picRepo/i
-      
-    
-    </summary>
-    
-      <category term="spring" scheme="http://trembear.github.io/categories/spring/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>面向服务的架构相关的一些概念</title>
     <link href="http://trembear.github.io/2019/07/03/%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E7%9A%84%E6%A6%82%E5%BF%B5/"/>
     <id>http://trembear.github.io/2019/07/03/面向服务架构的概念/</id>
@@ -394,6 +394,29 @@
       
       
         &lt;p&gt;关于软件系统的架构设计，是一个太多人喜欢讨论的问题，尤其是对软件开发不了解的人士来说，总是被各种各样的概念绕来绕去。从更高的层次，能够很清晰的列出这些众多概念的区别，而身在开发一线的我们更多的是对这些概念有一些感性的、朴素的认识。将之内化到自己的工作中去，才能更好的发挥架构
+      
+    
+    </summary>
+    
+      <category term="spring" scheme="http://trembear.github.io/categories/spring/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>spring源码阅读3-四个默认标签解析</title>
+    <link href="http://trembear.github.io/2019/07/03/Spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/spring%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB3/"/>
+    <id>http://trembear.github.io/2019/07/03/Spring源码阅读/spring源码阅读3/</id>
+    <published>2019-07-03T09:39:00.000Z</published>
+    <updated>2019-10-22T01:35:29.719Z</updated>
+    
+    <content type="html"><![CDATA[<p>上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。<br><img src="https://www.swapassn.com/picRepo/img/20190716094914.png" alt><br>在接下来的过程中，resource被包装为XmlReaderContext，Document转为Element，被documentReader注册到spring中。在具体的doRegisterBeanDefinitions方法中，包含了具体的注册流程parseBeanDefinitions方法。<br><img src="https://www.swapassn.com/picRepo/img/20190716100314.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;上一篇是关于解析xml文件的内容，在XmlBeanDefinitionReader类中，主要是doLoadBeanDefinitions方法中的解析步骤，这一篇继续跟进注册步骤。&lt;br&gt;&lt;img src=&quot;https://www.swapassn.com/picRepo/i
       
     
     </summary>
@@ -446,30 +469,6 @@
     </summary>
     
       <category term="spring" scheme="http://trembear.github.io/categories/spring/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>shadowsock服务搭建</title>
-    <link href="http://trembear.github.io/2019/07/01/shadowSock%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA/"/>
-    <id>http://trembear.github.io/2019/07/01/shadowSock服务搭建/</id>
-    <published>2019-07-01T04:56:50.000Z</published>
-    <updated>2019-10-22T01:20:39.888Z</updated>
-    
-    <content type="html"><![CDATA[<p>新的linux主机，现在在上面进行shadowsock搭建。</p><h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><p>由于登录密码是系统给的，所以顺便改一下密码</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@172 ~]# passwd root</span><br><span class="line">Changing password for user root.</span><br><span class="line">New password:</span><br><span class="line">...</span><br></pre></td></tr></table></figure><h2 id="检查Pip和Python是否安装"><a href="#检查Pip和Python是否安装" class="headerlink" title="检查Pip和Python是否安装"></a>检查Pip和Python是否安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@172 ~]# pip -V</span><br><span class="line">pip 7.1.0 from /usr/lib/python2.6/site-packages (python 2.6)</span><br><span class="line">[root@172 ~]# python -V</span><br><span class="line">Python 2.6.6</span><br><span class="line">[root@172 ~]#</span><br></pre></td></tr></table></figure><p>都安装了，直接进入下一步。</p><h2 id="安装package"><a href="#安装package" class="headerlink" title="安装package"></a>安装package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure><p>可以看到已经安装了这个。但是pip可以更新一下，这里也可以不更新，应该没有什么问题。这里还是按照提示更新一下。</p><p><img src="https://www.swapassn.com/picRepo/img/20190626184837.png" alt> </p><h2 id="建立配置文件"><a href="#建立配置文件" class="headerlink" title="建立配置文件"></a>建立配置文件</h2><p>选择任意位置建立一个配置文件，这里是在/etc目录下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/shadowsocks.json</span><br></pre></td></tr></table></figure><p>内容如下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;服务器 IP 地址&quot;,</span><br><span class="line">    &quot;server_port&quot;:8388,</span><br><span class="line">    &quot;local_address&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;password&quot;:&quot;mypassword&quot;,</span><br><span class="line">    &quot;timeout&quot;:300,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">    &quot;fast_open&quot;: false,</span><br><span class="line">    &quot;workers&quot;: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>各个字段的含义如下：</p><p><strong>server</strong>：服务器 IP (IPv4/IPv6)，注意这也将是服务端监听的 IP 地址<br><strong>server_port</strong>：监听的服务器端口<br><strong>local_address</strong>：本地监听的 IP 地址<br><strong>local_port</strong>：本地端端口<br><strong>password</strong>：用来加密的密码<br><strong>timeout</strong>：超时时间（秒）<br><strong>method</strong>：加密方法，可选择 “bf-cfb”, “aes-256-cfb”, “des-cfb”, “rc4″, 等等。默认是一种不安全的加密，推荐用 “aes-256-cfb”<br><strong>fast_open</strong>：true 或 false。如果你的服务器 Linux 内核在3.7+，可以开启 fast_open 以降低延迟。</p><h2 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ssserver -c /etc/shadowsocks.json &gt; /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure><h2 id="检查是否启动"><a href="#检查是否启动" class="headerlink" title="检查是否启动"></a>检查是否启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep ssserve</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;新的linux主机，现在在上面进行shadowsock搭建。&lt;/p&gt;
-&lt;h2 id=&quot;修改密码&quot;&gt;&lt;a href=&quot;#修改密码&quot; class=&quot;headerlink&quot; title=&quot;修改密码&quot;&gt;&lt;/a&gt;修改密码&lt;/h2&gt;&lt;p&gt;由于登录密码是系统给的，所以顺便改一下密码&lt;/p
-      
-    
-    </summary>
-    
-      <category term="其他" scheme="http://trembear.github.io/categories/%E5%85%B6%E4%BB%96/"/>
     
     
   </entry>
