@@ -158,6 +158,51 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-Spring源码阅读/spring源码阅读4"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-11-15 09:16:35" datetime="2019-11-15T01:16:35.000Z"  itemprop="datePublished">2019-11-15</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/11/15/Spring源码阅读/spring源码阅读4/">spring源码阅读4-整体的流程图</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        回顾了一下一上几节，感觉不是很清晰，同样是针对这个从文件中注入Bean到SpringBeanFactory这个过程，作了如下的流程图：
+整体的流程图：
+拆分xmlBeanFactory这个super()操作，主要是加载父级的beanFactory。在这个里面父级元素为null
+第三步是这个的核心，loadBeanDefinition(resource)的具体流程
+以上三步是大概的流程，最后一...
+    
+
+        <a href="/2019/11/15/Spring源码阅读/spring源码阅读4/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-前端/高阶组件"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -554,48 +599,6 @@ model中的effect执行完毕后，调用reducer刷新model中state值，同时�
     
 
         <a href="/2019/07/02/Spring源码阅读/spring源码阅读2/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Spring源码阅读/spring源码阅读1"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-07-01 17:39:00" datetime="2019-07-01T09:39:00.000Z"  itemprop="datePublished">2019-07-01</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring/">spring</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/07/01/Spring源码阅读/spring源码阅读1/">spring源码阅读1-项目的搭建与导入</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        spring项目下载源码对应的书籍为《spring源码深度解析》，由于出书也有一段时间，为了便于对照着学习，所以准备下载的源码为3.2.x版本，下载地址为：https://github.com/spring-projects/spring-framework/tree/3.2.x。
-部署现在github上的spring项目都是由gradle部署的，所以自己电脑需要提前安装gradle工具，类...
-    
-
-        <a href="/2019/07/01/Spring源码阅读/spring源码阅读1/" class="post-more waves-effect waves-button">
             阅读全文…
         </a>
     </div>
