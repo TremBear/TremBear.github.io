@@ -202,7 +202,14 @@
 <p>按照要求，第一步要执行<code>./gradlew :spring-oxm:compileTestJava cleanIdea idea</code>。在这一步上，第一次耗时比较久，要下载一些依赖。 我在这一步遇到了这个错误</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FAILURE: Build failed with an exception.</span><br><span class="line"></span><br><span class="line">* Where:</span><br><span class="line">Script &apos;E:\project2019\spring-framework-3.2.13.RELEASE\spring-oxm\oxm.gradle&apos; line: 123</span><br><span class="line"></span><br><span class="line">* What went wrong:</span><br><span class="line">Execution failed for task &apos;:spring-oxm:compileTestJava&apos;.</span><br><span class="line">&gt; JiBXException in JiBX binding compilation</span><br><span class="line"></span><br><span class="line">* Try:</span><br><span class="line">Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.</span><br><span class="line"></span><br><span class="line">BUILD FAILED</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://www.swapassn.com/picRepo/img/20190701175832.png" alt></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190701175832.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
 <p>这个错误，错位的位置为oxm.gradle 123行，JiBX没有绑定的错误，结合源码，把这一段注释掉，就没有什么问题了，可以构建成功。</p>
 <p>下一步是导入这个项目，采用gradle的形式进行导入，系统会自动下载其中的依赖，gradle 的模块关系是在根目录下面的settings.gradle中维护的，具体的模块之间的依赖在build.gradle和每个子项目自己的gradle配置文件中有定义。在这里导入会有一些问题。会报如下的错误：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A problem occurred configuring project &apos;:spring-orm-hibernate4&apos;.</span><br></pre></td></tr></table></figure>
@@ -378,7 +385,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>trembear &copy; 2015 - 2019</span>
+        <p><span>trembear &copy; 2015 - 2020</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>spring官方文档翻译 1.1-1.3 | TremBear&#39;s Blog | 学习弯道超车的技巧!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="Introduction to the Spring IoC Container and Beans   IOC容器和bean介绍This chapter covers the Spring Framework implementation of the Inversion of Control (IoC) principle. IoC is also known as dependency in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring官方文档翻译 1.1-1.3">
+<meta property="og:url" content="http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/index.html">
+<meta property="og:site_name" content="TremBear&#39;s Blog">
+<meta property="og:description" content="Introduction to the Spring IoC Container and Beans   IOC容器和bean介绍This chapter covers the Spring Framework implementation of the Inversion of Control (IoC) principle. IoC is also known as dependency in">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://docs.spring.io/spring/docs/5.2.5.RELEASE/spring-framework-reference/images/container-magic.png">
+<meta property="og:updated_time" content="2020-04-29T06:02:18.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring官方文档翻译 1.1-1.3">
+<meta name="twitter:description" content="Introduction to the Spring IoC Container and Beans   IOC容器和bean介绍This chapter covers the Spring Framework implementation of the Inversion of Control (IoC) principle. IoC is also known as dependency in">
+<meta name="twitter:image" content="https://docs.spring.io/spring/docs/5.2.5.RELEASE/spring-framework-reference/images/container-magic.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="TremBear&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">trembear</h5>
+          <a href="mailto:1424479171@qq.com" title="1424479171@qq.com" class="mail">1424479171@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/t"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/TremBear" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/6142839200" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                微博
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">spring官方文档翻译 1.1-1.3</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h2 class="title">spring官方文档翻译 1.1-1.3</h2>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-29T06:02:13.000Z" itemprop="datePublished" class="page-time">
+  2020-04-29
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring-翻译/">spring 翻译</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#IOC容器和bean介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">IOC容器和bean介绍</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#容器概述"><span class="post-toc-number">2.</span> <span class="post-toc-text">容器概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Configuration-Metadata"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Configuration Metadata</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实例化一个Spring容器"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">实例化一个Spring容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#组成基于XML配置的元数据"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">组成基于XML配置的元数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#groovy-Bean定义的DSL"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">groovy Bean定义的DSL</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用容器"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">使用容器</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#bean概览"><span class="post-toc-number">3.</span> <span class="post-toc-text">bean概览</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Bean的命名"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Bean的命名</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Bean定义之外的别名"><span class="post-toc-number">3.1.0.0.1.</span> <span class="post-toc-text">Bean定义之外的别名</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实例化bean"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">实例化bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过构造器实例化"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">通过构造器实例化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过静态工厂方法实例化"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">通过静态工厂方法实例化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过实例工厂方法实例化"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">通过实例工厂方法实例化</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Spring翻译/spring5.2.x(1.1-1.3)"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">spring官方文档翻译 1.1-1.3</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-04-29 14:02:13" datetime="2020-04-29T06:02:13.000Z"  itemprop="datePublished">2020-04-29</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/spring-翻译/">spring 翻译</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Introduction to the Spring IoC Container and Beans  </p>
+<h1 id="IOC容器和bean介绍"><a href="#IOC容器和bean介绍" class="headerlink" title="IOC容器和bean介绍"></a>IOC容器和bean介绍</h1><p>This chapter covers the Spring Framework implementation of the Inversion of Control (IoC) principle. IoC is also known as dependency injection (DI). It is a process whereby objects define their dependencies (that is, the other objects they work with) only through constructor arguments, arguments to a factory method, or properties that are set on the object instance after it is constructed or returned from a factory method. The container then injects those dependencies when it creates the bean. This process is fundamentally the inverse (hence the name, Inversion of Control) of the bean itself controlling the instantiation or location of its dependencies by using direct construction of classes or a mechanism such as the Service Locator pattern.<br>The <code>org.springframework.beans</code> and <code>org.springframework.context</code> packages are the basis for Spring Framework’s IoC container. The BeanFactory interface provides an advanced configuration mechanism capable of managing any type of object. ApplicationContext is a sub-interface of BeanFactory. It adds:</p>
+<ol>
+<li><p>Easier integration with Spring’s AOP features</p>
+</li>
+<li><p>Message resource handling (for use in internationalization)//消息资源处理，在国际化的时候用到</p>
+</li>
+<li><p>Event publication //活动发布</p>
+</li>
+<li><p>Application-layer specific contexts such as the WebApplicationContext for use in web applications.//上下文环境</p>
+</li>
+</ol>
+<p>简而言之，BeanFactory提供了配置框架和基本功能，而ApplicationContext添加了更多企业特定的功能。<br>ApplicationContext是BeanFactory的完整超集，在本章中仅在Spring的IoC容器描述中使用。<br>有关使用BeanFactory而不是ApplicationContext的更多信息，请参见BeanFactory。</p>
+<p>在Spring中，构成应用程序主干并由Spring IoC容器管理的对象称为bean。<br>Bean是由Spring IoC容器实例化，组装和以其他方式管理的对象。否则，bean仅仅是应用程序中许多对象之一。Bean及其之间的依赖关系反映在容器使用的配置元数据中。<br>//这个地方的通俗理解是bean是一个高级对象，是经过springIOC处理的，具有完整生命周期的对象</p>
+<h1 id="容器概述"><a href="#容器概述" class="headerlink" title="容器概述"></a>容器概述</h1><p>org.springframework.context.ApplicationContext接口表示Spring IoC容器，并负责实例化，配置和组装Bean。容器通过读取配置元数据来获取有关要实例化，配置和组装哪些对象的指令。配置元数据以XML，Java批注或Java代码表示。它使您能够表达组成应用程序的对象以及这些对象之间的丰富相互依赖关系。</p>
+<p>Several implementations of the ApplicationContext interface are supplied with Spring. In stand-alone applications, it is common to create an instance of ClassPathXmlApplicationContext or FileSystemXmlApplicationContext. While XML has been the traditional format for defining configuration metadata, you can instruct the container to use Java annotations or code as the metadata format by providing a small amount of XML configuration to declaratively enable support for these additional metadata formats.<br>spring 提供了applicationContext接口的几种实现。在单应用中，通常创建的是ClassPathXmlApplicationContext或者FileSystemXmlApplicationContext,尽管XML是定义配置元数据的传统格式，但是您可以通过提供少量XML配置来声明性地启用对这些其他元数据格式的支持，从而指示容器将Java注释或代码用作元数据格式。</p>
+<p>在大多数应用场景中，实例化一个Spring IoC容器的一个或多个实例不需要显式的用户代码。例如，在Web应用程序场景中，应用程序的web.xml文件中简单的八行（约）样板Web描述符XML通常就足够了（请参阅Web应用程序的便捷ApplicationContext实例化）。如果您使用Spring Tools for Eclipse（Eclipse支持的开发环境），则只需单击几下鼠标或击键即可轻松创建此样板配置。</p>
+<p>下图显示了Spring的工作原理的高级视图。您的应用程序类与配置元数据结合在一起，以便在创建和初始化ApplicationContext之后，您将拥有一个完全配置且可执行的系统或应用程序。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://docs.spring.io/spring/docs/5.2.5.RELEASE/spring-framework-reference/images/container-magic.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<h2 id="Configuration-Metadata"><a href="#Configuration-Metadata" class="headerlink" title="Configuration Metadata"></a>Configuration Metadata</h2><p>如上图所示，Spring IoC容器使用一种形式的配置元数据。此配置元数据表示您作为应用程序开发人员如何告诉Spring容器实例化，配置和组装应用程序中的对象。传统上，配置元数据以简单直观的XML格式提供，这是本章大部分内容用来传达Spring IoC容器的关键概念和功能的内容。</p>
+<p>配置元数据传统上是依赖于简单和直观的xml格式，这是本章大部分IOC容器用来传达关键概念和功能的形式</p>
+<p>基于xml 的配置不是唯一的配置元数据的形式，IOC容器与实际上写入的配置元数据是解耦的。当前很多开发者选择<code>java-based configuration</code>配置他们的spring应用。</p>
+<p>其他的配置元数据的形式，有如下几种：</p>
+<ol>
+<li>annotation-based configuration（基于注解形式的配置）：spring2.5引入了基于注解的元数据配置</li>
+<li>java-based configuration：开始于spring3.0，很多基于的Spring javaConfig的功能变成了spring<br>框架的一部分。从而你可以通过java而不是xml文件定义你的应用程序外部的bean。比如<code>@Configuration</code>,<code>@Bean</code>,<code>@Import</code>和 <code>@DependsOn</code></li>
+</ol>
+<p>spring 配置包含了最少一个bean，通常在容器里管理多个bean，基于XML的配置在定义bean的时候，在最外层使用的是<bean>标签，基于java的配置通常是使用@configuration中的@Bean注解。</bean></p>
+<p>这些bean的定义相当于组成你应用的实际对象。通常，你定义了服务层的对象，DAOs,表示层对象（Strus中的Action，JMS 队列）。通常在容器中不会配置细粒度域的对象，因为创建和加载域对象是Daos和业务逻辑的职责。然而，你可以使用spring和AspectJ集成那些在IOC容器之外的被创建的对象，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line">    #id:是定义唯一bean的字符串，id还用于对象之间的协作</span><br><span class="line">    #class:使用全路径类名定义bean的类型</span><br><span class="line">    &lt;bean id=&quot;...&quot; class=&quot;...&quot;&gt;  </span><br><span class="line">        &lt;!-- collaborators and configuration for this bean go here --&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;...&quot; class=&quot;...&quot;&gt;</span><br><span class="line">        &lt;!-- collaborators and configuration for this bean go here --&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- more bean definitions go here --&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例化一个Spring容器"><a href="#实例化一个Spring容器" class="headerlink" title="实例化一个Spring容器"></a>实例化一个Spring容器</h2><p>提供给Application Context构造函数的一个或多个位置路径是资源字符串，这些资源字符串使容器可以从各种外部资源（例如本地文件系统，Java CLASSPATH等）加载配置元数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext context = new ClassPathXmlApplicationContext(&quot;services.xml&quot;, &quot;daos.xml&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>当你学习完spring IOC容器后，你可能想要知道更多关于resource相关的内容，比如他提供了一个更方便的机制，用于从URI本地路径定义的路径中读取InputStream</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;petStore&quot; class=&quot;org.springframework.samples.jpetstore.services.PetStoreServiceImpl&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;accountDao&quot; ref=&quot;accountDao&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;itemDao&quot; ref=&quot;itemDao&quot;/&gt;</span><br><span class="line">    &lt;!-- additional collaborators and configuration for this bean go here --&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;accountDao&quot;</span><br><span class="line">    class=&quot;org.springframework.samples.jpetstore.dao.jpa.JpaAccountDao&quot;&gt;</span><br><span class="line">    &lt;!-- additional collaborators and configuration for this bean go here --&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;itemDao&quot; class=&quot;org.springframework.samples.jpetstore.dao.jpa.JpaItemDao&quot;&gt;</span><br><span class="line">    &lt;!-- additional collaborators and configuration for this bean go here --&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，服务层由PetStoreServiceImpl和两个Dao组成。这个<code>property name</code>元素指的是java Bean属性的名称。<code>ref</code>元素指的是另外一个bean定义的名称。ref关联的是另外一个的id。</p>
+<h3 id="组成基于XML配置的元数据"><a href="#组成基于XML配置的元数据" class="headerlink" title="组成基于XML配置的元数据"></a>组成基于XML配置的元数据</h3><p> 跨多个xml文件来对bean进行定义可能很有用，通常来说，每个独立的 xml配置文件代表的是你体系中的逻辑层或者模块。</p>
+<p>你可以使用application context 构造器去加载这些xml文件中的bean定义。这个构造器包含了多个<code>resource</code>位置。或者，使用一个或多个<code>import</code>标签去加载其他文件中的bean定义，如下图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans&gt;</span><br><span class="line">    &lt;import resource=&quot;services.xml&quot;/&gt;</span><br><span class="line">    &lt;import resource=&quot;resources/messageSource.xml&quot;/&gt;</span><br><span class="line">    &lt;import resource=&quot;/resources/themeSource.xml&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;bean1&quot; class=&quot;...&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;bean2&quot; class=&quot;...&quot;/&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，外部的bean定义从这三个文件中来：<code>services.xml</code>,<code>messageSource.xml</code>,<code>themeSource.xml</code>。所有位置的路径都会在导入定义文件后被关联到。在上面的配置中 ，services.xml在当前目录中，messageSource和themeSource在resource目录中，斜杠被忽略了。然而，给出的路径都是相对路径，最好不要用斜杠。被引入的文件的内容（包含了顶级的beans标签），都必须是符合spring schema规范的，合法的xml bean definitions。</p>
+<p>备注的说明：</p>
+<ol>
+<li>使用“../“ 路径是可行的，但是不被推荐，因为可能引入项目之外的文件。特别是，不建议将关联使用<code>classpath</code> :URLs(例如：<code>classpath:../services.xml</code>)</li>
+<li>你可以使用标准的资源位置而不是相对路径的形式。使用<code>classpath</code>，需要多注意的是你要讲文件放在正确的路径下面，通常要与绝对位置保持一个间接的引用，例如，使用<code>${JAVA_HOME}</code>来代表jvm环境变量。</li>
+</ol>
+<p>命名空间自己提供了导入指令的功能。Spring所提供的一系列XML名称空间（例如，上下文和util名称空间）中提供了超出普通bean定义的其他配置功能。</p>
+<h3 id="groovy-Bean定义的DSL"><a href="#groovy-Bean定义的DSL" class="headerlink" title="groovy Bean定义的DSL"></a>groovy Bean定义的DSL</h3><p>作为一个外部配置元数据的更深入的例子，bean定义可以被Groovy使用的DSL来表达，常见的用于Grails框架中，通常，这样的配置在<code>.groovy</code>文件中，写法如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">beans &#123;</span><br><span class="line">    dataSource(BasicDataSource) &#123;</span><br><span class="line">        driverClassName = <span class="string">"org.hsqldb.jdbcDriver"</span></span><br><span class="line">        url = <span class="string">"jdbc:hsqldb:mem:grailsDB"</span></span><br><span class="line">        username = <span class="string">"sa"</span></span><br><span class="line">        password = <span class="string">""</span></span><br><span class="line">        settings = [<span class="string">mynew:</span><span class="string">"setting"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    sessionFactory(SessionFactory) &#123;</span><br><span class="line">        dataSource = dataSource</span><br><span class="line">    &#125;</span><br><span class="line">    myService(MyService) &#123;</span><br><span class="line">        nestedBean = &#123; AnotherBean bean -&gt;</span><br><span class="line">            dataSource = dataSource</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种配置形式比较等同于xml定义的形式，甚至可以支持xml配置的命名空间，还提供了使用<code>importBeans</code>用来引入xml bean 定义文件。</p>
+<h2 id="使用容器"><a href="#使用容器" class="headerlink" title="使用容器"></a>使用容器</h2><p><code>applicationContext</code> 是一个可以维护不同的bean和依赖关系的高级工厂的一种实现。通过<code>T getBean(String name,Class&lt;T&gt; requiredType)</code>.你可以创建bean的示例。</p>
+<p><code>ApplictionContext</code>让你能够阅读bean的定义和访问他们。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create and configure beans</span></span><br><span class="line">ApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"services.xml"</span>, <span class="string">"daos.xml"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// retrieve configured instance</span></span><br><span class="line">PetStoreService service = context.getBean(<span class="string">"petStore"</span>, PetStoreService.class);</span><br><span class="line"></span><br><span class="line"><span class="comment">// use configured instance</span></span><br><span class="line">List&lt;String&gt; userList = service.getUsernameList();</span><br></pre></td></tr></table></figure>
+
+<p>在 groovy 的配置中，也是非常类似的配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext context = <span class="keyword">new</span> GenericGroovyApplicationContext(<span class="string">"services.groovy"</span>, <span class="string">"daos.groovy"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>最灵活的形式是<code>GenericApplicationContext</code>和reader相结合的形式，比如，与<code>XmlBeanDefinitionReader</code>相结合。或者是使用  <code>GroovyBeanDefinitionReader</code>  ，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GenericApplicationContext context = <span class="keyword">new</span> GenericApplicationContext();</span><br><span class="line"><span class="keyword">new</span> XmlBeanDefinitionReader(context).loadBeanDefinitions(<span class="string">"services.xml"</span>, <span class="string">"daos.xml"</span>);</span><br><span class="line"><span class="keyword">new</span> GroovyBeanDefinitionReader(context).loadBeanDefinitions(<span class="string">"services.groovy"</span>, <span class="string">"daos.groovy"</span>);</span><br><span class="line">context.refresh();</span><br></pre></td></tr></table></figure>
+
+<p>你可以在同一个Application中混合这几种reader delegate，从不同的配置源中获取bean definitions。</p>
+<p>你可以使用getbean来实例化你的bean，ApplictionContext提供了其他几种获取bean的方法，但是你的应用代码不应该使用他们，你的代码中不应该使用<code>getBean()</code>方法从而避免依赖Spring APIs,例如，spring 的web模块提供了依赖注入的功能，你可以通过元数据（例如自动装配）来申明特定的bean 的依赖。</p>
+<h1 id="bean概览"><a href="#bean概览" class="headerlink" title="bean概览"></a>bean概览</h1><p>springIOC容器管理多个bean，这些bean在你将源数据应用到容器时创建。在容器本身内部，这些bean 定义被<code>BeanDefinition</code>这个类管理，它包含了如下的元数据：</p>
+<ul>
+<li>包限定的类名（a package-qualified calss name）:通常，指的是被定义的bean的实际上的实现类。</li>
+<li>bean行为配置元素（bean behavior configuration elements），该状态说明了bean在容器中的行为(scope,lifecycle callbacks,and so forth)</li>
+<li>bean工作所需要的其他关联的beans，这些关联也被叫做合作或者依赖。</li>
+<li>创建新对象中的其他的配置设置，例如，一个管理连接池的bean中的连接数量</li>
+</ul>
+<p>这些元数据转换为构成每个bean定义的一组属性。下表是一些属性的描述：</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Explained In …</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Class</td>
+<td>Instantiating Beans(实例化bean)</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Naming beans(命名 bean)</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Bean Scope（bean的作用域）</td>
+</tr>
+<tr>
+<td>Constructor arguments</td>
+<td>Dependency Injection(依赖注入)</td>
+</tr>
+<tr>
+<td>Properties</td>
+<td>Dependency Injection</td>
+</tr>
+<tr>
+<td>Autowireing mode</td>
+<td>Autowiring Collaborator</td>
+</tr>
+<tr>
+<td>Lazy initialization mode</td>
+<td>lazy initialization beans</td>
+</tr>
+<tr>
+<td>Initialization method</td>
+<td>Initialization callbacks（初始化回调）</td>
+</tr>
+<tr>
+<td>Destrucition method</td>
+<td>Destruction callbacks（注销的回调）</td>
+</tr>
+</tbody></table>
+<p>除了包含如何创建一个特定的bean的信息的bean difinition之外，applicationContext还允许管理那些在外部被创建的对象。这是由ApplicationContext中的BeanFactory通过<code>getBeanFactory()</code>实现的，它返回了BeanFactory的实现类(<code>DefaultListableBeanFactory</code>)。<code>DefaultListableBeanFactory</code>通过registerSingleton（）和registerBeanDefinition（）提供注册。在一个典型的应用中，常规的bean definition和元数据定义的bean definition会放在一起使用。</p>
+<p>tips:</p>
+<p>bean的元数据和手动构建的单例需要尽可能早的注册，为了使容器在自动注入阶段和其他的内省阶段正确的推断出他们。在覆盖元数据和已存在的单例在某种程度上是被支持的，在运行时bean的注册不被正式支持，并可能导致并发问题，导致bean容器出现不一致的状态。</p>
+<h2 id="Bean的命名"><a href="#Bean的命名" class="headerlink" title="Bean的命名"></a>Bean的命名</h2><p> 每个bean都有一个或多个标识符。这些标识符在容器中必须是独一无二的。一个bean通常只有一个标识符，假如需要多个，多出来的可以被认为是别名。 </p>
+<p>在基于XML配置中，可以看到id属性，name属性，或者两者都指定的bean的标识符，id指定的是精确唯一的一个ID， 通常，这些名字都是字母数字（’myBean’, ‘someService’等等）  如果你想要为一个bean引入其他的别名，你可以在元素【name】中指定他们，用逗号【，】，分号【；】或者空白符来分别他们。 </p>
+<p> 历史上，spring 3.1之前的版本，元素【id】被定义成 xsd:ID 类型，限制了可能的字符；从3.1版本开始，它就被定义成了xsd:string类型。尽管不再由XML解析器保证其一致性，容器仍然强制保持其一致性。 </p>
+<p>name 和 id 对于bean来说不是必须的，如果你没有指明name或者id，容器会自动创建一个name，如果你想通过name来引用bean，通过ref元素或者Service Locator查找，你就必须为他提供一个name。</p>
+<p>不提供名称的原因与使用InnerBean和自动装配合作者有关。[存疑]</p>
+<p>bean的命名约定：</p>
+<p>这个约定是一个标准的java在属性命名上的约定，beanname必须以小写字母开头，驼峰式的一个结构。bean命名可以让你的配置更好的被阅读和理解，另外，如果你使用AOP，可以更方便通过name来应用通知一组bean。</p>
+<p>tips：</p>
+<p>当组件扫描classpath时，spring为没有命名的组件生成beanname，通过以下的规则：本质上就是将简单类名（不包含包名）的第一个字符转为小写，然而，在一些特殊情况，如果类名的第一个字母和第二个字母都是大写，那么原始的外壳得到保留，会使用通过Introspector.decapitalize规则来创建name</p>
+<h5 id="Bean定义之外的别名"><a href="#Bean定义之外的别名" class="headerlink" title="Bean定义之外的别名"></a>Bean定义之外的别名</h5><p>在bean定义本身中，对一个bean通过组合使用最多的id的名称和任意数量的name的名称，来构成不止一个bean的名称。这些名称可以看做是同一个bean的等效别名，在某些情况下很实用，例如通过使用特定于该组件本身的Bean名称，让应用程序中的每个组件都引用一个公共依赖项。</p>
+<p>指定实际定义的bean的所有别名是不够的，然而，在一些时候，会引入一个在别处定义的bean的别名。在一个配置被分割到各个子系统的大型系统中会经常看到这种情况。各个子系统都可以通过xml配置元数据，拥有自己的对象定义集合，你可以使用<code>&lt;alias&gt;</code>标签去表示他们，下面是一个例子</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">alias</span> <span class="attr">name</span>=<span class="string">"fromName"</span> <span class="attr">alias</span>=<span class="string">"toName"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，一个叫fromname的bean，通过这个别名定义后，转换为了toName.</p>
+<p>又例如，这个子系统A的配置的元数据想要通过subSystemA-datasource关联上一个数据源，子系统B想要通过subSystemB-dataSource 关联一个数据源。当主系统使用了这些子系统后，主系统想要通过myApp-DataSource来引用这个数据源，如果想要这三个名称使用同一个数据源对象的时候，你可以通过以下的配置来完成</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">alias</span> <span class="attr">name</span>=<span class="string">"myApp-dataSource"</span> <span class="attr">alias</span>=<span class="string">"subsystemA-dataSource"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">alias</span> <span class="attr">name</span>=<span class="string">"myApp-dataSource"</span> <span class="attr">alias</span>=<span class="string">"subsystemB-dataSource"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在所有的系统都可以通过唯一的，不与其他定义冲突的（特别是创建了命名空间）的name  引用数据源。他们会引用相同的bean。</p>
+<p>tips：</p>
+<p>java-configuration（java配置）：如果你使用javaconfiguration，这个@bean注解可以提供别名，可以参照@bean注解的详情用法。</p>
+<h2 id="实例化bean"><a href="#实例化bean" class="headerlink" title="实例化bean"></a>实例化bean</h2><p>bean的定义本质上是为了创建一个或多个对象，当被询问时，容器查看命名bean的创建，并通过bean定义封装的配置元数据来创建一个实际的对象。</p>
+<p>如果你使用基于xml的配置元数据，你指明了通过bean标签中的class属性实例化的对象的类型。class属性（在内部实际上是BeanDefinition的class属性）通常是强制性的。你可以通过下面两种方式来使用class属性。</p>
+<ol>
+<li>通常，在容器本身通过反射性的调用其构造函数直接创建bean的情况下，指定要构造的bean类。等效于java的new操作。</li>
+<li>要指定包含了static工厂方法用来调用创建对象实际上的class，在不常见的情况下，容器会调用一个static工厂方法来创建一个bean，从调用的static 工厂方法 返回的对象类型可能是相同的class或者是不同的class。</li>
+</ol>
+<p>tips：</p>
+<p>如果你想要配置static嵌套的bean 定义，你需要使用嵌套类的二元名称（A.B）。例如，如果在com.example包中有一个Something的类，这个类中有一个static嵌套类名为Otherthing，这个嵌套类的bean定义就是 com.example.Something$Otherthing。注意这个$标志，将内部类和外部类分隔。</p>
+<h3 id="通过构造器实例化"><a href="#通过构造器实例化" class="headerlink" title="通过构造器实例化"></a>通过构造器实例化</h3><p>通过构造方法创建bean时，所有正常的类都被spring使用并且兼容。这些类不需要实现任何特殊的接口或者以特定的方式编写，仅仅需要制定bean的class即可，取决于你用于特定bean的IOC类型，你需要一个默认的空的构造器。</p>
+<p>SpringIOC 容器管理你想要的任何实际的class，单不仅仅限于管理javabean。很多Spring用户更喜欢带有一个默认构造器和完整的getter/setter方法的bean。你也可以在你的容器中放下非bean风格的特殊class。例如，你需要使用一个不遵守javaBean规范的旧版的连接池，spring可以管理他，在基于xml风格的配置中，你可以这样设置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"exampleBean"</span> <span class="attr">class</span>=<span class="string">"examples.ExampleBean"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"anotherExample"</span> <span class="attr">class</span>=<span class="string">"examples.ExampleBeanTwo"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于构造器使用的机制相关和对象构造之后的对象实例属性的细节部分，参照Injecting Dependencies 这一章节</p>
+<h3 id="通过静态工厂方法实例化"><a href="#通过静态工厂方法实例化" class="headerlink" title="通过静态工厂方法实例化"></a>通过静态工厂方法实例化</h3><p>定义使用静态工厂方法创建的bean时，请使用class属性指定包含静态工厂方法的类，并使用名为factory-method的属性指定工厂方法本身的名称。您应该能够调用此方法（使用可选参数，如稍后所述）并返回一个活动对象，该对象随后将被视为已通过构造函数创建。这种bean定义的一种用法是在旧版代码中调用静态工厂。</p>
+<p>下面bean定义是通过调用工厂方法来指定这个bean的。这个定义没有指定返回的class的类型，这个class包含了一个工厂方法，在这个例子中，createInstance（） 方法必须是一个静态方法，一下就是一个具体的示例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"clientService"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">class</span>=<span class="string">"examples.ClientService"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">factory-method</span>=<span class="string">"createInstance"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>以下展示了class在前面创建bean定义是如何运行的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ClientService clientService = <span class="keyword">new</span> ClientService();</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ClientService</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ClientService <span class="title">createInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> clientService;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果想要获取工厂方法的其他参数和在对象之后设置对象实例属性的机制，需要参照 <a href="https://docs.spring.io/spring/docs/5.2.5.RELEASE/spring-framework-reference/core.html#beans-factory-properties-detailed" target="_blank" rel="noopener">Dependencies and Configuration in Detail</a>. </p>
+<h3 id="通过实例工厂方法实例化"><a href="#通过实例工厂方法实例化" class="headerlink" title="通过实例工厂方法实例化"></a>通过实例工厂方法实例化</h3><p>和静态工厂方法类似，实例化一个实例工厂调用的而是已存在、非静态方法的bean来创建bean，要使用此机制，请将class属性保留为空，并在factory-bean属性中，在当前（或父或祖先）容器中指定包含要创建该对象的实例方法的bean的名称。使用factory-method属性设置工厂方法本身的名称。以下示例显示了如何配置此类Bean：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- the factory bean, which contains a method called createInstance() --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"serviceLocator"</span> <span class="attr">class</span>=<span class="string">"examples.DefaultServiceLocator"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- inject any dependencies required by this locator bean --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- the bean to be created via the factory bean --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"clientService"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">factory-bean</span>=<span class="string">"serviceLocator"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">factory-method</span>=<span class="string">"createClientServiceInstance"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> 以下示例显示了相应的类： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultServiceLocator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ClientService clientService = <span class="keyword">new</span> ClientServiceImpl();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ClientService <span class="title">createClientServiceInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> clientService;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个工厂类可以有多个工厂方法，如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"serviceLocator"</span> <span class="attr">class</span>=<span class="string">"examples.DefaultServiceLocator"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- inject any dependencies required by this locator bean --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"clientService"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">factory-bean</span>=<span class="string">"serviceLocator"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">factory-method</span>=<span class="string">"createClientServiceInstance"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"accountService"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">factory-bean</span>=<span class="string">"serviceLocator"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">factory-method</span>=<span class="string">"createAccountServiceInstance"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>下面配置相应的类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultServiceLocator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ClientService clientService = <span class="keyword">new</span> ClientServiceImpl();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AccountService accountService = <span class="keyword">new</span> AccountServiceImpl();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ClientService <span class="title">createClientServiceInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> clientService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AccountService <span class="title">createAccountServiceInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> accountService;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 这种方法表明，工厂Bean本身可以通过依赖项注入（DI）进行管理和配置。 </p>
+<p>tips:</p>
+<p>在spring文档里面，factory bean 指的是 在spring容器中通过实例工厂或者静态工厂方法创建的 bean对象。相比之下， <code>FactoryBean</code>  （大写的）指的是具体的FactoryBean对象 </p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-04-29T06:02:18.060Z" itemprop="dateUpdated">2020-04-29 14:02:18</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/" target="_blank" rel="external">http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://trembear.github.io">
+            <img src="/img/avatar.jpg" alt="trembear">
+            trembear
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/&title=《spring官方文档翻译 1.1-1.3》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/&title=《spring官方文档翻译 1.1-1.3》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《spring官方文档翻译 1.1-1.3》 — TremBear's Blog&url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/01/15/暮云中台/2-Vue前端/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">2-vue前端</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>trembear &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/&title=《spring官方文档翻译 1.1-1.3》 — TremBear's Blog&pic=http://trembear.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/&title=《spring官方文档翻译 1.1-1.3》 — TremBear's Blog&source=熊俊伟的博客" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《spring官方文档翻译 1.1-1.3》 — TremBear's Blog&url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/&via=http://trembear.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://trembear.github.io/2020/04/29/Spring翻译/spring5.2.x(1.1-1.3)/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '熊俊伟的博客';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '熊俊伟的博客';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

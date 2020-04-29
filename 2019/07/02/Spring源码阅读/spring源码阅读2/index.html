@@ -235,7 +235,15 @@
 <p>在<code>getEntityResolver()</code>中，在初始化<code>reader</code>的时候，<code>ResourceLoader</code>不为空了，执行的是</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//entityResolver开始为空，resourceLoader为默认的ClassLoader</span></span><br><span class="line"><span class="keyword">this</span>.entityResolver = <span class="keyword">new</span> ResourceEntityResolver(resourceLoader);</span><br></pre></td></tr></table></figure>
 
-<p>ResourceEntityResolver类图如下:<br><img src="https://www.swapassn.com/picRepo/img/20190708173233.png" alt><br>ResourceEntityResolver不是spring提供的包，没有继续跟下去了。接着往下看：</p>
+<p>ResourceEntityResolver类图如下:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190708173233.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>ResourceEntityResolver不是spring提供的包，没有继续跟下去了。接着往下看：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">private</span> DocumentLoader documentLoader = <span class="keyword">new</span> DefaultDocumentLoader();</span><br><span class="line">...</span><br><span class="line">Document doc = <span class="keyword">this</span>.documentLoader.loadDocument(</span><br><span class="line">					inputSource, getEntityResolver(), <span class="keyword">this</span>.errorHandler, validationMode, isNamespaceAware());</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Document <span class="title">loadDocument</span><span class="params">(InputSource inputSource, EntityResolver entityResolver,</span></span></span><br><span class="line"><span class="function"><span class="params">		ErrorHandler errorHandler, <span class="keyword">int</span> validationMode, <span class="keyword">boolean</span> namespaceAware)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">	DocumentBuilderFactory factory = createDocumentBuilderFactory(validationMode, namespaceAware);</span><br><span class="line">	<span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">		logger.debug(<span class="string">"Using JAXP provider ["</span> + factory.getClass().getName() + <span class="string">"]"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	DocumentBuilder builder = createDocumentBuilder(factory, entityResolver, errorHandler);</span><br><span class="line">	<span class="keyword">return</span> builder.parse(inputSource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -251,9 +259,22 @@
 <h2 id="一些补充"><a href="#一些补充" class="headerlink" title="一些补充"></a>一些补充</h2><p><strong>SAX application</strong>: JAVA 解析 XML 通常有两种方式:DOM 和SAX。DOM（文档对象模型）是W3C标准，提供了标准的解析方式，但其解析效率一直不尽如人意，这是因为DOM解析XML文档时，把所有内容一次性的装载入内存，并构建一个驻留在内存中的树状结构（节点树）。如果需要解析的XML文档过大，或者我们只对该文档中的一部分感兴趣，这样就会引起性能问题。</p>
 <p><strong>EntityResolver</strong>: 如果SAX应用程序实现自定义处理外部实体,则必须实现此接口。Sax 解析xml时需要查找对应的dtd定义。EntityResolver申明了一个如何查询dtd的方法。</p>
 <p>对于不同的验证模式，spring使用了不同的解析器进行解析。 例如在DelegatingEntityResolver中，加载dtd类型的BeansDtdResolver。加载xsd类型的PluggableEntityResolver，两个的解析模式不一样。</p>
-<p><img src="https://www.swapassn.com/picRepo/img/20190709152239.png" alt></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190709152239.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
 <p>在关于Document是怎么解析这个resolveEntity的具体流程，是在com.sun.org.apache包中实现的，大概的流程如下：</p>
-<p><img src="https://www.swapassn.com/picRepo/img/20190710090528.png" alt></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.swapassn.com/picRepo/img/20190710090528.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
 
         </div>
 
@@ -407,7 +428,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>trembear &copy; 2015 - 2019</span>
+        <p><span>trembear &copy; 2015 - 2020</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
